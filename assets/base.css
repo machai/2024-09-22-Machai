@@ -777,83 +777,85 @@ summary::-webkit-details-marker {
   Focus ring - default (with offset)
 */
 
+:root {
+  --focus-outline-color: rgba(var(--color-foreground), 0.5);
+  --focus-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+    0 0 0 0.5rem var(--focus-outline-color),
+    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+}
+
 *:focus {
   outline: 0;
   box-shadow: none;
 }
 
 *:focus-visible {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 0.3rem;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  outline: 0;
+  box-shadow: var(--focus-box-shadow);
 }
 
 /* Fallback - for browsers that don't support :focus-visible, a fallback is set for :focus */
 .focused,
 .no-js *:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 0.3rem;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  box-shadow: var(--focus-box-shadow);
 }
 
 /* Negate the fallback side-effect for browsers that support :focus-visible */
 .no-js *:focus:not(:focus-visible) {
-  outline: 0;
   box-shadow: none;
 }
 
 /*
-  Focus ring - inset
+  Focus ring - inset/offset
 */
-
-.focus-inset:focus-visible {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: -0.2rem;
-  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
+.focus-inset {
+  --focus-box-shadow: inset 0 0 0 0.2rem var(--focus-outline-color),
+    0 0 0.2rem 0rem rgba(var(--color-foreground), 0.3);
 }
 
-.focused.focus-inset,
-.no-js .focus-inset:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: -0.2rem;
-  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
-}
-
-.no-js .focus-inset:focus:not(:focus-visible) {
-  outline: 0;
-  box-shadow: none;
+.focus-offset {
+  --focus-box-shadow: 0 0 0 1rem rgb(var(--color-background)),
+    0 0 0 1.2rem var(--focus-outline-color),
+    0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
 }
 
 /*
-  Focus ring - none
+  Focus ring - pseudo element
 */
+.focus-pseudo:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.focus-pseudo:focus {
+  box-shadow: none;
+  outline: 0;
+}
+
+.focus-pseudo:after {
+  border-radius: var(--border-radius);
+}
+
+.focus-pseudo:focus:after {
+  box-shadow: var(--focus-box-shadow);
+}
+
+.focus-pseudo:focus-visible:after {
+  box-shadow: var(--focus-box-shadow);
+}
+
+.focus-pseudo:focus:not(:focus-visible):after {
+  box-shadow: none;
+}
 
 /* Dangerous for a11y - Use with care */
 .focus-none {
   box-shadow: none !important;
   outline: 0 !important;
-}
-
-.focus-offset:focus-visible {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
-    0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
-}
-
-.focus-offset.focused,
-.no-js .focus-offset:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
-    0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
-}
-
-.no-js .focus-offset:focus:not(:focus-visible) {
-  outline: 0;
-  box-shadow: none;
 }
 
 /* component-title */
@@ -1271,7 +1273,6 @@ button.shopify-payment-button__button--unbranded {
   font-size: 1.5rem;
   text-decoration: none;
   color: rgb(var(--color-button-text));
-  transition: box-shadow var(--duration-short) ease;
   -webkit-appearance: none;
   appearance: none;
   background-color: rgba(var(--color-button), var(--alpha-button-background));
@@ -1316,25 +1317,6 @@ button.shopify-payment-button__button--unbranded {
 
 .button--secondary:after {
   --border-opacity: var(--buttons-border-opacity);
-}
-
-.button:focus-visible,
-.button:focus,
-.button.focused,
-.shopify-payment-button__button--unbranded:focus-visible,
-.shopify-payment-button [role="button"]:focus-visible,
-.shopify-payment-button__button--unbranded:focus,
-.shopify-payment-button [role="button"]:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0 0.5rem rgba(var(--color-foreground), 0.5),
-    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
-}
-
-.button:focus:not(:focus-visible):not(.focused),
-.shopify-payment-button__button--unbranded:focus:not(:focus-visible):not(.focused),
-.shopify-payment-button [role="button"]:focus:not(:focus-visible):not(.focused) {
-  box-shadow: inherit;
 }
 
 .button::selection,
