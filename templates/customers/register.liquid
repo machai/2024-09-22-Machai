@@ -20,7 +20,7 @@
         </svg>
         {{ 'templates.contact.form.error_heading' | t }}
       </h2>
-      <ul> 
+      <ul>
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
@@ -35,7 +35,7 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
-    <div class="field">      
+    <div class="field">
       <input
         type="text"
         name="customer[first_name]"
@@ -61,7 +61,7 @@
         {{ 'customer.register.last_name' | t }}
       </label>
     </div>
-    <div class="field">      
+    <div class="field">
       <input
         type="email"
         name="customer[email]"
@@ -86,10 +86,11 @@
         <svg aria-hidden="true" focusable="false" role="presentation">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.
+        {{ form.errors.translated_fields['email'] | capitalize }}
+        {{ form.errors.messages['email'] }}.
       </span>
     {%- endif -%}
-    <div class="field">     
+    <div class="field">
       <input
         type="password"
         name="customer[password]"
@@ -110,7 +111,8 @@
         <svg aria-hidden="true" focusable="false" role="presentation">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields['password'] | capitalize }} {{ form.errors.messages['password'] }}.
+        {{ form.errors.translated_fields['password'] | capitalize }}
+        {{ form.errors.messages['password'] }}.
       </span>
     {%- endif -%}
     <button>
