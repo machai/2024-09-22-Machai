@@ -537,9 +537,17 @@ a.product__text {
 }
 
 @media screen and (max-width: 749px) {
-  .product__media-item--variant:first-child {
+  /* center only visible slider item */
+  .product__media-item--variant.product__media-item--only-visible {
     padding-right: 1.5rem;
   }
+}
+/* override slider radius collapse selectors (gallery with 1 visible item still renders as slider) */
+.grid--collapsed.grid.grid.grid .grid__item.product__media-item--variant.product__media-item--only-visible {
+  --top-left-radius: var(--media-radius);
+  --top-right-radius: var(--media-radius);
+  --bottom-right-radius: var(--media-radius);
+  --bottom-left-radius: var(--media-radius);
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -687,6 +695,23 @@ a.product__text {
 .grid--collapsed.contains-media .product__media-toggle:after {
   right: calc(var(--media-border-width) * -1);
   bottom: calc(var(--media-border-width) * -1);
+}
+
+.grid--collapsed.contains-media .product__media-toggle:focus-visible:after {
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.5);
+  border-top-left-radius: calc(var(--top-left-radius) - var(--media-border-width));
+  border-top-right-radius: calc(var(--top-right-radius) - var(--media-border-width));
+  border-bottom-right-radius: calc(var(--bottom-right-radius) - var(--media-border-width));
+  border-bottom-left-radius: calc(var(--bottom-left-radius) - var(--media-border-width));
+}
+
+.grid--collapsed.contains-media .product__media-toggle.focused:after {
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),0 0 0 0.5rem rgba(var(--color-foreground), 0.5);
+  border-radius: var(--top-left-radius) var(--top-right-radius) var(--bottom-right-radius) var(--bottom-left-radius);
+}
+
+.grid--collapsed.contains-media .product__media-toggle:focus-visible:after {
+  border-radius: var(--top-left-radius) var(--top-right-radius) var(--bottom-right-radius) var(--bottom-left-radius);
 }
 
 .product-media-modal {
@@ -1210,4 +1235,66 @@ a.product__text {
   width: 1.2rem;
   margin-left: 1.2rem;
   flex-shrink: 0;
+}
+
+/* collapsed grid overrides */
+@media screen and (min-width: 750px) {
+  .product--stacked .grid--collapsed-y .grid__item:first-child {
+    --top-left-radius: var(--border-radius);
+    --top-right-radius: var(--border-radius);
+  }
+
+  .product--thumbnail .grid--collapsed .is-active,
+  .product--thumbnail_slider .grid--collapsed .is-active {
+    --top-left-radius: var(--border-radius);
+    --top-right-radius: var(--border-radius);
+    --bottom-right-radius: var(--border-radius);
+    --bottom-left-radius: var(--border-radius);
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .product--stacked .grid--collapsed-y .grid__item:last-child,
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item {
+    --bottom-right-radius: var(--border-radius);
+    --bottom-left-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item {
+    --top-left-radius: var(--border-radius);
+    --top-right-radius: var(--border-radius);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .product--stacked .grid--collapsed-y .grid__item:first-child {
+    --top-left-radius: var(--border-radius);
+    --top-right-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-y .grid__item:only-child,
+  .product--stacked .grid--collapsed-y .grid__item:last-child:nth-child(even) {
+    --bottom-left-radius: var(--border-radius);
+    --bottom-right-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-y .grid__item:last-child:nth-child(odd) {
+    --bottom-right-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-y .grid__item:nth-last-child(2):nth-child(even):not(.product__media-item--full) {
+    --bottom-left-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item:first-child,
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item:nth-child(even) {
+    --top-left-radius: var(--border-radius);
+    --bottom-left-radius: var(--border-radius);
+  }
+
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item:nth-child(odd),
+  .product--stacked .grid--collapsed-x:not(.grid--collapsed-y) .grid__item:last-child:nth-child(even) {
+    --top-right-radius: var(--border-radius);
+    --bottom-right-radius: var(--border-radius);
+  }
 }
