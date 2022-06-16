@@ -231,11 +231,6 @@
 
     {% section 'footer' %}
 
-    <ul hidden>
-      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
-      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
-    </ul>
-
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -268,5 +263,11 @@
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    
+    <div hidden>
+      <span id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</span>
+      <span id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</span>
+      <span id="a11y-modal-window-message">{{ 'accessibility.link_messages.modal_window' | t }}</span>
+    </div>
   </body>
 </html>
