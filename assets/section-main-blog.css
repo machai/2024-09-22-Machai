@@ -59,3 +59,40 @@
     padding-bottom: 82.5rem;
   }
 }
+
+.blog--collapsed-y:not(.contains-card--standard) .card-wrapper {
+  height: calc(100% + var(--card-border-width));
+}
+
+.blog--collapsed-x {
+  margin-right: var(--card-border-width);
+}
+
+.blog--collapsed-y {
+  margin-bottom: var(--card-border-width);
+}
+
+.blog--collapsed-x .card {
+  margin-right: calc(var(--card-border-width) * -1);
+}
+
+.blog--collapsed-y .card {
+  margin-bottom: calc(var(--card-border-width) * -1);
+}
+
+.blog--collapsed-x:not(.blog-articles--collage) .article:nth-child(even) .card--card:after,
+.blog--collapsed-x:not(.blog-articles--collage) .article:nth-child(even) .card--standard .card__inner:after,
+.blog--collapsed-x.blog-articles--collage .article:nth-child(3n) .card--card:after,
+.blog--collapsed-x.blog-articles--collage .article:nth-child(3n) .card--standard .card__inner:after {
+  margin-left: var(--card-border-width);
+}
+
+.blog--collapsed-y.blog-articles--collage .article:not(:first-child) .card--card:after,
+.blog--collapsed-y:not(.blog-articles--collage) .article:not(:nth-child(-n + 2)) .card--card:after {
+  margin-top: var(--card-border-width);
+}
+/* use the same shadow offset card--cards use, because a text-only blog cards behave less like card--standard */
+.blog--collapsed-y.blog-articles--collage.blog-articles--text-only .article:not(:first-child) .card--standard .card__inner:after,
+.blog--collapsed-y.blog-articles--text-only:not(.blog-articles--collage) .article:not(:nth-child(-n + 2)) .card--standard .card__inner:after {
+  margin-top: var(--card-border-width);
+}

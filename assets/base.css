@@ -2839,6 +2839,36 @@ details-disclosure > details {
   border-right: none;
 }
 
+.grid--collapsed-x.contains-content-container,
+.grid--collapsed-x.contains-media {
+  padding-right: var(--collapsed-offset-x);
+}
+
+.grid--collapsed-y.contains-content-container,
+.grid--collapsed-y.contains-media {
+  padding-bottom: var(--collapsed-offset-y);
+}
+
+.grid--collapsed-x.contains-content-container .content-container,
+.grid--collapsed-x.contains-media .global-media-settings {
+  margin-right: var(--collapsed-offset-x);
+}
+
+.grid--collapsed-y.contains-content-container .content-container,
+.grid--collapsed-y.contains-media .global-media-settings {
+  margin-bottom: var(--collapsed-offset-y);
+}
+
+.grid--collapsed-x.contains-content-container .content-container:after,
+.grid--collapsed-x.contains-media .global-media-settings:after {
+  margin-left: var(--collapsed-shadow-offset-x);
+}
+
+.grid--collapsed-y.contains-content-container .content-container:after,
+.grid--collapsed-y.contains-media .global-media-settings:after {
+  margin-top: var(--collapsed-shadow-offset-y);
+}
+
 /* check for flexbox gap in older Safari versions */
 @supports not (inset: 10px) {
   .grid {

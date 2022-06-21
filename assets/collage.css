@@ -25,11 +25,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .collage--mobile .collage__item--left:nth-child(3n - 2) {
+  .collage--mobile .collage__item--left:first-child {
     grid-column: span 2;
   }
 
-  .collage--mobile .collage__item--left:nth-child(3n - 2):nth-last-child(2) {
+  .collage--mobile .collage__item--left:first-child:nth-last-child(2) {
     grid-column: span 1;
   }
 
@@ -37,11 +37,11 @@
     grid-column-start: 2;
   }
 
-  .collage--mobile .collage__item--right:nth-child(3n - 2) {
+  .collage--mobile .collage__item--right:first-child {
     grid-column-start: 1;
   }
 
-  .collage--mobile .collage__item--right:nth-child(3n - 2):last-child {
+  .collage--mobile .collage__item--right:first-child:last-child {
     grid-column: span 2;
   }
 
@@ -62,12 +62,12 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .collage__item--left:nth-child(3n - 2) {
+  .collage__item--left:first-child {
     grid-column: 1 / span 2;
     grid-row: span 2;
   }
 
-  .collage__item--left:nth-child(3n - 2):last-child {
+  .collage__item--left:first-child:last-child {
     grid-column: 1 / span 3;
   }
 
@@ -80,12 +80,12 @@
     grid-row: span 2;
   }
 
-  .collage__item--right:nth-child(3n - 2) {
+  .collage__item--right:first-child {
     grid-column: 1 / span 1;
     grid-row: span 1;
   }
 
-  .collage__item--right:nth-child(3n - 2):last-child {
+  .collage__item--right:first-child:last-child {
     grid-column: 1 / span 3;
   }
 
@@ -124,9 +124,9 @@
   box-shadow: var(--card-shadow-horizontal-offset) var(--card-shadow-vertical-offset) var(--card-shadow-blur-radius) rgba(var(--color-shadow), var(--card-shadow-opacity));
   content: '';
   position: absolute;
-  width: calc(var(--card-border-width) * 2 + 100%);
-  height: calc(var(--card-border-width) * 2 + 100%);
   top: calc(var(--card-border-width) * -1);
+  right: calc(var(--card-border-width) * -1);
+  bottom: calc(var(--card-border-width) * -1);
   left: calc(var(--card-border-width) * -1);
   z-index: -1;
 }
@@ -186,4 +186,68 @@
 
 .collage .collage-card-spacing img {
   object-fit: contain;
+}
+
+.collage--collapsed-y .collage__item .card--card,
+.collage--collapsed-y .collage__item--collection .card--text,
+.collage--collapsed-y .collage-card {
+  height: calc(100% + var(--card-border-width));
+}
+
+.collage--collapsed-x .collage-card {
+  width: calc(100% + var(--card-border-width));
+}
+
+/* offset collage for border collapsing */
+.collage--collapsed-x {
+  padding-right: var(--card-border-width);
+}
+.collage--collapsed-y {
+  padding-bottom: var(--card-border-width);
+}
+
+/* offset collage cards for border collapsing */
+.collage--collapsed-x :where(.card, .collage-card) {
+  margin-right: calc(var(--card-border-width) * -1);
+}
+.collage--collapsed-y :where(.card--card, .text--only, .collage-card) {
+  margin-bottom: calc(var(--card-border-width) * -1);
+}
+
+@media screen and (min-width: 750px) {
+  /* offset collage card shadows to prevent overlap */
+  .collage--collapsed-x .collage__item--left:first-child :where(.card--card, .collage-card):after,
+  .collage--collapsed-x .collage__item--left:first-child .card--standard .card__inner:after {
+    margin-right: var(--card-border-width);
+  }
+  .collage--collapsed-x .collage__item--right:last-child :where(.card--card, .collage-card):after,
+  .collage--collapsed-x .collage__item--right:last-child .card--standard .card__inner:after {
+    margin-left: var(--card-border-width);
+  }
+  .collage--collapsed-y .collage__item--left:nth-child(3) :where(.card--card, .collage-card):after {
+    margin-top: var(--card-border-width);
+  }
+  .collage--collapsed-y .collage__item--right:first-child :where(.card--card, .collage-card):after {
+    margin-bottom: var(--card-border-width);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  /* offset collage card shadows to prevent overlap */
+  .collage--collapsed-y:not(.collage--mobile) .collage__item:not(:first-child) :where(.card--card, .collage-card):after,
+  .collage--collapsed-y.collage--mobile .collage__item--right:nth-child(3) :where(.card--card, .collage-card):after,
+  .collage--collapsed-y.collage--mobile .collage__item--right:nth-child(3) .card--standard .card__inner:after {
+    margin-top: var(--card-border-width);
+  }
+  .collage--mobile.collage--collapsed-y .collage__item--left:first-child :where(.card--card, .collage-card):after {
+    margin-bottom: var(--card-border-width);
+  }
+  .collage--mobile.collage--collapsed-x .collage__item--left:nth-child(3) :where(.card--card, .collage-card):after,
+  .collage--mobile.collage--collapsed-x .collage__item--left:nth-child(3) .card--standard .card__inner:after {
+    margin-left: var(--card-border-width);
+  }
+  .collage--mobile.collage--collapsed-x .collage__item--right:first-child :where(.card--card, .collage-card):after,
+  .collage--mobile.collage--collapsed-x .collage__item--right:first-child .card--standard .card__inner:after {
+    margin-right: var(--card-border-width);
+  }
 }

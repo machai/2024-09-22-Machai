@@ -15,7 +15,7 @@
     margin-bottom: 3rem;
   }
 
-  .multicolumn .page-width {
+  .multicolumn.multicolumn--slider .page-width {
     padding-left: 0;
     padding-right: 0;
   }
@@ -62,7 +62,6 @@
 
 .multicolumn:not(.background-none) .multicolumn-card {
   background: rgb(var(--color-background));
-  height: 100%;
 }
 
 .multicolumn.background-primary .multicolumn-card {
@@ -103,20 +102,10 @@
     margin: 0;
     width: 100%;
   }
-
-  .multicolumn-list:not(.slider) {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
 }
 
 
 @media screen and (min-width: 750px) {
-  .multicolumn-list.slider,
-  .multicolumn-list.grid--4-col-desktop {
-    padding: 0;
-  }
-
   .multicolumn-list__item,
   .grid--4-col-desktop .multicolumn-list__item {
     padding-bottom: 0;
@@ -198,6 +187,11 @@
 .multicolumn-card {
   position: relative;
   box-sizing: border-box;
+  height: 100%;
+}
+
+.grid--collapsed.contains-content-container .multicolumn-card {
+  height: calc(100% - var(--collapsed-offset-y));
 }
 
 .multicolumn-card > .multicolumn-card__image-wrapper--full-width:not(.multicolumn-card-spacing) {
