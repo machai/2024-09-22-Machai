@@ -15,16 +15,19 @@
 }
 
 .price--end {
-  text-align: right;
+  text-align: end;
 }
 
 .price .price-item {
   display: inline-block;
-  margin: 0 1rem 0 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 1rem;
 }
 
 .price__regular .price-item--regular {
-  margin-right: 0;
+  margin-inline-end: 0;
 }
 
 .price:not(.price--show-badge) .price-item--last:last-of-type {

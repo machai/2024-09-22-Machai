@@ -47,11 +47,16 @@ slider-component.slider-component-full-width {
     margin-bottom: 1rem;
   }
 
+  html[dir="rtl"] .slider.slider--mobile {
+    scroll-padding-left: initial;
+    scroll-padding-right: 1.5rem;
+  }
+
   /* Fix to show some space at the end of our sliders in all browsers */
   .slider--mobile:after {
     content: "";
     width: 0;
-    padding-left: 1.5rem;
+    padding-inline-start: 1.5rem;
   }
 
   .slider.slider--mobile .slider__slide {
@@ -80,6 +85,11 @@ slider-component.slider-component-full-width {
     -webkit-overflow-scrolling: touch;
   }
 
+  html[dir="rtl"] .slider.slider--tablet-up {
+    scroll-padding-left: initial;
+    scroll-padding-right: 1rem;
+  }
+
   .slider.slider--tablet-up .slider__slide {
     margin-bottom: 0;
   }
@@ -97,12 +107,17 @@ slider-component.slider-component-full-width {
     margin-bottom: 1rem;
   }
 
+  html[dir="rtl"] .slider.slider--tablet {
+    scroll-padding-left: initial;
+    scroll-padding-right: 1.5rem;
+  }
+
   /* Fix to show some space at the end of our sliders in all browsers */
   .slider--tablet:after {
     content: "";
     width: 0;
-    padding-left: 1.5rem;
-    margin-left: calc(-1 * var(--grid-desktop-horizontal-spacing));
+    padding-inline-start: 1.5rem;
+    margin-inline-start: calc(-1 * var(--grid-desktop-horizontal-spacing));
   }
 
   .slider.slider--tablet .slider__slide {
@@ -151,12 +166,17 @@ slider-component.slider-component-full-width {
     scroll-padding-left: var(--desktop-margin-left-first-item);
   }
 
+  html[dir="rtl"] .slider--desktop {
+    scroll-padding-left: initial;
+    scroll-padding-right: var(--desktop-margin-left-first-item);
+  }
+
   /* Fix to show some space at the end of our sliders in all browsers */
   .slider--desktop:after {
     content: "";
     width: 0;
-    padding-left: 5rem;
-    margin-left: calc(-1 * var(--grid-desktop-horizontal-spacing));
+    padding-inline-start: 5rem;
+    margin-inline-start: calc(-1 * var(--grid-desktop-horizontal-spacing));
   }
 
   .slider.slider--desktop .slider__slide {
@@ -166,22 +186,27 @@ slider-component.slider-component-full-width {
   }
 
   .slider--desktop .slider__slide:first-child {
-    margin-left: var(--desktop-margin-left-first-item);
-    scroll-margin-left: var(--desktop-margin-left-first-item);
+    margin-inline-start: var(--desktop-margin-left-first-item);
+    scroll-margin-inline-start: var(--desktop-margin-left-first-item);
   }
 
   .slider-component-full-width .slider--desktop {
     scroll-padding-left: 1.5rem;
   }
 
+  html[dir="rtl"] .slider-component-full-width .slider--desktop {
+    scroll-padding-left: initial;
+    scroll-padding-right: 1.5rem;
+  }
+
   .slider-component-full-width .slider--desktop .slider__slide:first-child {
-    margin-left: 1.5rem;
-    scroll-margin-left: 1.5rem;
+    margin-inline-start: 1.5rem;
+    scroll-margin-inline-start: 1.5rem;
   }
 
   /* Fix to show some space at the end of our sliders in all browsers */
   .slider-component-full-width .slider--desktop:after {
-    padding-left: 1.5rem;
+    padding-inline-end: 1.5rem;
   }
 
   .slider--desktop.grid--5-col-desktop .grid__item {
@@ -372,18 +397,22 @@ slider-component.slider-component-full-width {
   cursor: not-allowed;
 }
 
-.slider-button--next .icon {
+.slider-button--next .icon,
+html[dir="rtl"] .slider-button--prev .icon {
   transform: rotate(-90deg);
 }
 
-.slider-button--prev .icon {
+.slider-button--prev .icon,
+html[dir="rtl"] .slider-button--next .icon {
   transform: rotate(90deg);
 }
 
-.slider-button--next:not([disabled]):hover .icon {
+.slider-button--next:not([disabled]):hover .icon,
+html[dir="rtl"] .slider-button--prev:not([disabled]):hover .icon {
   transform: rotate(-90deg) scale(1.1);
 }
 
-.slider-button--prev:not([disabled]):hover .icon {
+.slider-button--prev:not([disabled]):hover .icon,
+html[dir="rtl"] .slider-button--next:not([disabled]):hover .icon {
   transform: rotate(90deg) scale(1.1);
 }

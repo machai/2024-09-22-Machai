@@ -1,10 +1,15 @@
 .search__input.field__input {
-  padding-right: 5rem;
+  padding-inline-end: 5rem;
 }
 
 .search__button {
-  right: var(--inputs-border-width);
   top: var(--inputs-border-width);
+  right: var(--inputs-border-width);
+}
+
+html[dir="rtl"] .search__button {
+  left: var(--inputs-border-width);
+  right: initial;
 }
 
 .search__button:focus-visible {

@@ -60,9 +60,9 @@
 
 .image-with-text__media--placeholder > svg {
   position: absolute;
-  left: 50%;
   max-width: 80rem;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   fill: currentColor;
@@ -88,6 +88,11 @@
   width: 100%;
   height: 100%;
   z-index: -1;
+}
+
+html[dir="rtl"] .image-with-text .grid__item::after {
+  left: initial;
+  right: 0;
 }
 
 .image-with-text:not(.image-with-text--overlap) .image-with-text__media-item:after {
@@ -154,7 +159,7 @@
 
 .image-with-text__content--mobile-right > * {
   align-self: flex-end;
-  text-align: right;
+  text-align: end;
 }
 
 .image-with-text__content--mobile-center > * {
@@ -169,7 +174,7 @@
 
 @media screen and (min-width: 750px) {
   .image-with-text__grid--reverse .image-with-text__content {
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 
   .image-with-text__content--bottom {
@@ -184,12 +189,12 @@
 
   .image-with-text__content--desktop-right > * {
     align-self: flex-end;
-    text-align: right;
+    text-align: end;
   }
 
   .image-with-text__content--desktop-left > * {
     align-self: flex-start;
-    text-align: left;
+    text-align: start;
   }
 
   .image-with-text__content--desktop-center > * {
@@ -207,12 +212,12 @@
     width: calc(100% + 4rem);
     min-width: calc(100% + 4rem);
     margin-top: 0;
-    margin-left: -4rem;
+    margin-inline-start: -4rem;
   }
 
   .image-with-text--overlap .image-with-text__grid--reverse .image-with-text__content {
-    margin-left: 0;
-    margin-right: -4rem;
+    margin-inline-start: 0;
+    margin-inline-end: -4rem;
   }
 
   .image-with-text--overlap .image-with-text__grid--reverse .image-with-text__text-item {
@@ -257,11 +262,11 @@
   }
 
   .image-with-text.collapse-borders:not(.image-with-text--overlap) .grid:not(.image-with-text__grid--reverse) .image-with-text__content {
-    border-left: 0;
+    border-inline-start: 0;
   }
 
   .image-with-text.collapse-borders:not(.image-with-text--overlap) .image-with-text__grid--reverse .image-with-text__content {
-    border-right: 0;
+    border-inline-end: 0;
   }
 }
 
@@ -324,6 +329,6 @@
 /* check for flexbox gap in older Safari versions */
 @supports not (inset: 10px) {
   .image-with-text .grid {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 }

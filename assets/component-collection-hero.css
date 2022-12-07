@@ -10,8 +10,7 @@
 
 @media screen and (min-width: 750px) {
   .collection-hero.collection-hero--with-image {
-    padding: calc(4rem + var(--page-width-margin)) 0
-      calc(4rem + var(--page-width-margin));
+    padding: calc(4rem + var(--page-width-margin)) 0;
     overflow: hidden;
   }
 
@@ -88,14 +87,17 @@
 
 @media screen and (min-width: 750px) {
   .collection-hero--with-image .collection-hero__text-wrapper {
-    padding: 4rem 2rem 4rem 0;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    padding-inline-start: 2rem;
+    padding-inline-end: 0;
     flex-basis: 50%;
   }
 
   .collection-hero__image-container {
     align-self: stretch;
     flex: 1 0 50%;
-    margin-left: 3rem;
+    margin-inline-start: 3rem;
     min-height: 20rem;
   }
 }

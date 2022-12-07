@@ -2,6 +2,11 @@
   right: 0;
 }
 
+html[dir="rtl"] .list-menu--right {
+  left: 0;
+  right: initial;
+}
+
 .list-menu--disclosure {
   position: absolute;
   min-width: 100%;

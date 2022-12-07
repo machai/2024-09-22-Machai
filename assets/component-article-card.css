@@ -27,13 +27,13 @@
 }
 
 .article-card__title a:after {
-  bottom: 0;
   content: "";
   height: 100%;
-  left: 0;
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   z-index: 1;
 }
@@ -79,12 +79,12 @@
 }
 
 .article-card__link:not(:only-child) {
-  margin-right: 3rem;
+  margin-inline-end: 3rem;
 }
 
 @media screen and (min-width: 990px) {
   .article-card__link:not(:only-child) {
-    margin-right: 4rem;
+    margin-inline-end: 4rem;
   }
 }
 
@@ -131,7 +131,7 @@
 /* check for flexbox gap in older Safari versions */
 @supports not (inset: 10px) {
   .articles-wrapper.grid {
-    margin: 0 0 5rem 0;
+    margin: 0 0 5rem;
   }
 
   @media screen and (min-width: 750px) {

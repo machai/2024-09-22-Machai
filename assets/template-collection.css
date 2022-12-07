@@ -42,6 +42,11 @@
   .collection .slider--tablet.product-grid {
     scroll-padding-left: 1.5rem;
   }
+
+  html[dir="rtl"] .collection .slider--tablet.product-grid {
+    scroll-padding-left: initial;
+    scroll-padding-right: 1.5rem;
+  }
 }
 
 .collection__description > * {

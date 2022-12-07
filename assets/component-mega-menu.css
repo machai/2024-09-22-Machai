@@ -7,13 +7,13 @@
   border-left: 0;
   border-radius: 0;
   border-right: 0;
-  left: 0;
   overflow-y: auto;
   padding-bottom: 2.4rem;
   padding-top: 2.4rem;
   position: absolute;
-  right: 0;
   top: 100%;
+  left: 0;
+  right: 0;
 }
 
 .shopify-section-header-sticky .mega-menu__content {
@@ -71,7 +71,7 @@
 
 .header--top-center .mega-menu__list > li {
   width: 16%;
-  padding-right: 2.4rem;
+  padding-inline-end: 2.4rem;
 }
 
 .mega-menu__link:hover,

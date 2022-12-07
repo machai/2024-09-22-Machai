@@ -341,7 +341,9 @@
                         {%- endif -%}
                       </div>
                       <price-range class="facets__price">
-                        <span class="field-currency">{{ cart.currency.symbol }}</span>
+                        {%- unless settings.enable_rtl -%}
+                          <span class="field-currency">{{ cart.currency.symbol }}</span>
+                        {%- endunless -%}
                         <div class="field">
                           <input
                             class="field__input"
@@ -396,6 +398,9 @@
                             {{- 'products.facets.to' | t -}}
                           </label>
                         </div>
+                        {%- if settings.enable_rtl -%}
+                          <span class="field-currency">{{ cart.currency.symbol }}</span>
+                        {%- endif -%}
                       </price-range>
                     </div>
                   </details>
@@ -779,7 +784,9 @@
                           </p>
 
                           <price-range class="facets__price">
-                            <span class="field-currency">{{ cart.currency.symbol }}</span>
+                            {%- unless settings.enable_rtl -%}
+                              <span class="field-currency">{{ cart.currency.symbol }}</span>
+                            {%- endunless -%}
                             <div class="field">
                               <input
                                 class="field__input"
@@ -835,6 +842,9 @@
                                 {{- 'products.facets.to' | t -}}
                               </label>
                             </div>
+                            {%- if settings.enable_rtl -%}
+                              <span class="field-currency">{{ cart.currency.symbol }}</span>
+                            {%- endif -%}
                           </price-range>
                           <div class="no-js-hidden mobile-facets__footer">
                             <facet-remove class="mobile-facets__clear-wrapper">

@@ -151,14 +151,14 @@
 }
 
 .background-none .slider .multicolumn-card__info {
-  padding-left: 0.5rem;
+  padding-inline-start: 0.5rem;
 }
 
 .background-none
   .slider
   .multicolumn-card__image-wrapper
   + .multicolumn-card__info {
-  padding-left: 1.5rem;
+  padding-inline-start: 1.5rem;
 }
 
 .background-none
@@ -217,7 +217,7 @@
 }
 
 .multicolumn-card__info .icon-wrap {
-  margin-left: 0.8rem;
+  margin-inline-start: 0.8rem;
   white-space: nowrap;
 }
 
