@@ -254,6 +254,32 @@
         }
       }
     },
+    "motion": {
+      "name": "Motion",
+      "settings": {
+        "scroll_image_zoom": {
+          "label": "Zoom in on hero images while scrolling"
+        },
+        "hover_lift": {
+          "label": "Raise elements on hover"
+        },
+        "hover_lift_3d": {
+          "label": "Lift and rotate elements on hover"
+        },
+        "link_animation": {
+          "label": "Link animation style",
+          "default": {
+            "label": "Default"
+          },
+          "animated_underline": {
+            "label": "Animated underline"
+          },
+          "growing_background": {
+            "label": "Growing background"
+          }
+        }
+      }
+    },
     "social-media": {
       "name": "Social media",
       "settings": {
@@ -1082,6 +1108,12 @@
         "image_2": {
           "label": "Second image"
         },
+        "image_fixed": {
+          "label": "Fixed position"
+        },
+        "image_animation": {
+          "label": "Ambient image animation"
+        },
         "image_overlay_opacity": {
           "label": "Image overlay opacity"
         },
@@ -1277,6 +1309,12 @@
           },
           "label": "Desktop image placement",
           "info": "Image first is the default mobile layout."
+        },
+        "image_fixed": {
+          "label": "Fixed position"
+        },
+        "animate_gradient": {
+          "label": "Animate gradient background"
         },
         "desktop_content_alignment": {
           "options__1": {
