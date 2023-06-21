@@ -707,12 +707,17 @@ class SlideshowComponent extends SliderComponent {
     this.sliderFirstItemNode = this.slider.querySelector('.slideshow__slide');
     if (this.sliderItemsToShow.length > 0) this.currentPage = 1;
 
+    this.announcementBarSlider = this.querySelector('.announcement-bar-slider');
+    // Value below should match --duration-default CSS value
+    this.delay = this.announcementBarSlider ? 200 : 0;
+
     this.sliderControlLinksArray = Array.from(this.sliderControlWrapper.querySelectorAll('.slider-counter__link'));
     this.sliderControlLinksArray.forEach((link) => link.addEventListener('click', this.linkToSlide.bind(this)));
     this.slider.addEventListener('scroll', this.setSlideVisibility.bind(this));
     this.setSlideVisibility();
 
-    if (this.querySelector('.announcement-bar-slider')) {
+    if (this.announcementBarSlider) {
+      this.allAnnouncements = Array.from(this.querySelectorAll('.announcement-bar__message'));
       this.announcementBarArrowButtonWasClicked = false;
 
       this.desktopLayout = window.matchMedia('(min-width: 750px)');
@@ -728,6 +733,10 @@ class SlideshowComponent extends SliderComponent {
         button.addEventListener('click', () => {
           this.announcementBarArrowButtonWasClicked = true;
         }, {once: true});
+
+        button.addEventListener('click', () => {
+          this.applyAnimation(button.name);
+        });
       });
     }
 
@@ -752,7 +761,19 @@ class SlideshowComponent extends SliderComponent {
   }
 
   onButtonClick(event) {
-    super.onButtonClick(event);
+    // This is copied from the parent component because we need to add a delay.
+    event.preventDefault();
+    const step = event.currentTarget.dataset.step || 1;
+    this.slideScrollPosition =
+      event.currentTarget.name === 'next'
+        ? this.slider.scrollLeft + step * this.sliderItemOffset
+        : this.slider.scrollLeft - step * this.sliderItemOffset;
+    setTimeout (() => {
+      this.slider.scrollTo({
+        left: this.slideScrollPosition,
+      });
+    }, this.delay);
+
     const isFirstSlide = this.currentPage === 1;
     const isLastSlide = this.currentPage === this.sliderItemsToShow.length;
 
@@ -764,9 +785,11 @@ class SlideshowComponent extends SliderComponent {
     } else if (isLastSlide && event.currentTarget.name === 'next') {
       this.slideScrollPosition = 0;
     }
-    this.slider.scrollTo({
-      left: this.slideScrollPosition,
-    });
+    setTimeout (() => {
+      this.slider.scrollTo({
+        left: this.slideScrollPosition,
+      });
+    }, this.delay);
   }
 
   update() {
@@ -810,7 +833,7 @@ class SlideshowComponent extends SliderComponent {
       } else if (this.autoplayButtonIsSetToPlay) {
         this.pause();
       }
-    } else if (this.querySelector('.announcement-bar-slider').contains(event.target)) {
+    } else if (this.announcementBarSlider.contains(event.target)) {
       this.pause();
     }
   }
@@ -841,9 +864,19 @@ class SlideshowComponent extends SliderComponent {
       this.currentPage === this.sliderItems.length
         ? 0
         : this.slider.scrollLeft + this.slider.querySelector('.slideshow__slide').clientWidth;
-    this.slider.scrollTo({
-      left: slideScrollPosition,
-    });
+
+    if (this.announcementBarSlider) {
+      setTimeout(() => {
+        this.slider.scrollTo({
+          left: slideScrollPosition,
+        });
+      }, this.delay);
+      this.applyAnimation();
+    } else {
+      this.slider.scrollTo({
+        left: slideScrollPosition,
+      });
+    }
   }
 
   setSlideVisibility() {
@@ -864,6 +897,43 @@ class SlideshowComponent extends SliderComponent {
         item.setAttribute('aria-hidden', 'true');
         item.setAttribute('tabindex', '-1');
       }
+    });
+  }
+
+  updateSlideClass(slide, button) {
+    slide.classList.add(`announcement-bar-slider--fade-out-${button}`);
+    setTimeout(() => {
+      slide.classList.remove(`announcement-bar-slider--fade-out-${button}`);
+      slide.classList.add(`announcement-bar-slider--fade-in-${button}`);
+    }, this.delay);
+    setTimeout(() => {
+      slide.classList.remove(`announcement-bar-slider--fade-in-${button}`);
+    }, this.delay * 2);
+  }
+
+  applyAnimation(button = 'next') {
+    const itemsCount = this.sliderItems.length;
+    const increment = button === 'next' ? 1 : -1;
+    const nextPage = ((this.currentPage + increment - 1) % itemsCount + itemsCount) % itemsCount + 1;
+
+    requestAnimationFrame(() => {
+      this.allAnnouncements.forEach((announcement, index) => {
+        const announcementIndex = index + 1;
+        const isNextAnnouncementLast = nextPage === itemsCount;
+        const isNextAnnouncementFirst = nextPage === 1;
+        const isCurrentAnnouncementLast = announcementIndex === itemsCount;
+        const isNextAnnouncement = nextPage === announcementIndex
+
+        if (isNextAnnouncementLast && button === 'previous' && (announcementIndex === 1 || isCurrentAnnouncementLast)) {
+          this.updateSlideClass(announcement, 'next');
+        } else if (isNextAnnouncementFirst && button === 'next' && (isNextAnnouncement || isCurrentAnnouncementLast)) {
+          this.updateSlideClass(announcement, 'previous');
+        } else if (isNextAnnouncement || nextPage - 1 === announcementIndex && button === 'next') {
+          this.updateSlideClass(announcement, button);
+        } else if (isNextAnnouncement || nextPage + 1 === announcementIndex && button === 'previous') {
+          this.updateSlideClass(announcement, button);
+        }
+      });
     });
   }
 
