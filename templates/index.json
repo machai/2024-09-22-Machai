@@ -61,150 +61,119 @@
           "settings": {
             "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
           }
+        },
+        "block_order": [
+          "template--16120468439198__45fb9588-44c2-4048-b6d7-40c4e64376b8-167740699303269d05-0",
+          "template--16120468439198__45fb9588-44c2-4048-b6d7-40c4e64376b8-167740699303269d05-1",
+          "template--16120468439198__45fb9588-44c2-4048-b6d7-40c4e64376b8-167740699303269d05-2"
+        ],
+        "settings": {
+          "title": "Assortiment",
+          "heading_size": "h1",
+          "image_ratio": "square",
+          "columns_desktop": 3,
+          "color_scheme": "background-1",
+          "show_view_all": true,
+          "columns_mobile": "1",
+          "swipe_on_mobile": false,
+          "padding_top": 36,
+          "padding_bottom": 36
         }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "color_scheme": "background-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "background-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
-      }
-    },
-    "collage": {
-      "type": "collage",
-      "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
+      "collage": {
+        "type": "collage",
+        "blocks": {
+          "collection-0": {
+            "type": "collection",
+            "settings": {
+              "collection": "antifouling"
+            }
+          },
+          "product": {
+            "type": "product",
+            "settings": {
+              "product": "radboud-quick-clean",
+              "second_image": false
+            }
+          },
+          "collection-1": {
+            "type": "collection",
+            "settings": {
+              "collection": "onderhoud-schoonmaak"
+            }
           }
         },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
+        "block_order": [
+          "collection-0",
+          "product",
+          "collection-1"
+        ],
+        "settings": {
+          "heading": "Vaarklaar maken",
+          "heading_size": "h1",
+          "desktop_layout": "left",
+          "mobile_layout": "collage",
+          "card_styles": "product-card-wrapper",
+          "color_scheme": "background-1",
+          "padding_top": 52,
+          "padding_bottom": 52
         }
       },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
-      "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "background-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "background-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
+      "4073dede-d9fa-40fb-9ba3-9c9f7af60043": {
+        "type": "collage",
+        "disabled": true,
+        "blocks": {
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/antifouling-wekenkopie.jpg"
+            }
+          },
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-1": {
+            "type": "product",
+            "settings": {
+              "product": "hempel-classic-71220-antifouling",
+              "second_image": false
+            }
+          },
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-2": {
+            "type": "collection",
+            "settings": {
+              "collection": "antifouling"
+            }
           }
         },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
+        "block_order": [
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-0",
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-1",
+          "template--16116021690526__4073dede-d9fa-40fb-9ba3-9c9f7af60043-1676722147997ee2b5-2"
+        ],
+        "settings": {
+          "heading": "Onderhoud",
+          "heading_size": "h1",
+          "desktop_layout": "left",
+          "mobile_layout": "column",
+          "card_styles": "product-card-wrapper",
+          "color_scheme": "background-1",
+          "padding_top": 36,
+          "padding_bottom": 36
         }
       },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "background-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+      "15817620-0b69-4c10-8111-04d054fde9ab": {
+        "type": "custom-liquid",
+        "settings": {
+          "custom_liquid": "",
+          "color_scheme": "background-1",
+          "padding_top": 40,
+          "padding_bottom": 52
+        }
       }
-    }
-  },
-  "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
-  ]
-}
+    },
+    "order": [
+      "image_banner",
+      "45fb9588-44c2-4048-b6d7-40c4e64376b8",
+      "collage",
+      "4073dede-d9fa-40fb-9ba3-9c9f7af60043",
+      "15817620-0b69-4c10-8111-04d054fde9ab"
+    ]
+  }
