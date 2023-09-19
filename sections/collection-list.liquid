@@ -54,12 +54,6 @@
         id="Slider-{{ section.id }}"
         role="list"
       >
-        {%- liquid
-          assign columns = section.blocks.size
-          if columns > 3
-            assign columns = 3
-          endif
-        -%}
         {%- for block in section.blocks -%}
           <li
             id="Slide-{{ section.id }}-{{ forloop.index }}"
@@ -75,8 +69,9 @@
             {% render 'card-collection',
               card_collection: block.settings.collection,
               media_aspect_ratio: section.settings.image_ratio,
-              columns: columns,
-              placeholder_image: placeholder_image
+              placeholder_image: placeholder_image,
+              columns_desktop: section.settings.columns_desktop,
+              columns_mobile: section.settings.columns_mobile
             %}
           </li>
         {%- endfor -%}
