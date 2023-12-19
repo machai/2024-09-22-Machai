@@ -77,6 +77,15 @@ class QuickOrderList extends HTMLElement {
       this.onChange(event);
     }, ON_CHANGE_DEBOUNCE_TIMER);
     this.addEventListener('change', debouncedOnChange.bind(this));
+
+    if (this.isStickyHeaderEnabled()) {
+      this.productHeader = document.querySelector('.quick-order-form .quick-order-list__table--sticky .product-title');
+      this.defaultProductHeader = this.productHeader.innerHTML;
+      this.mainHeader = document.querySelector('.section-header');
+  
+      this.initializeMainHeaderObserver();
+      this.initializeStickyHeader();
+    }
   }
 
   cartUpdateUnsubscriber = undefined;
@@ -99,6 +108,10 @@ class QuickOrderList extends HTMLElement {
   disconnectedCallback() {
     if (this.cartUpdateUnsubscriber) {
       this.cartUpdateUnsubscriber();
+    }
+
+    if (this.isStickyHeaderEnabled()) {
+      this.mainHeaderObserver.disconnect();
     }
   }
 
@@ -123,7 +136,12 @@ class QuickOrderList extends HTMLElement {
       .then((responseText) => {
         const html = new DOMParser().parseFromString(responseText, 'text/html');
         const sourceQty = html.querySelector(`#${this.quickOrderListId}`);
-        this.innerHTML = sourceQty.innerHTML;
+        const updatedTbody = sourceQty.querySelector('tbody');
+        const updatedTotal = sourceQty.querySelector('.quick-order-list__total');
+
+        // Temporary: replace only specific elements
+        this.querySelector('tbody').innerHTML = updatedTbody.innerHTML;
+        this.querySelector('.quick-order-list__total').innerHTML = updatedTotal.innerHTML;
       })
       .catch(e => {
         console.error(e);
@@ -206,6 +224,71 @@ class QuickOrderList extends HTMLElement {
       });
   }
 
+  initializeMainHeaderObserver() {
+    this.mainHeaderObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          this.adjustStickyHeaderPosition();
+        }
+      });
+    });
+
+    this.mainHeaderObserver.observe(this.mainHeader, { attributes: true });
+  }
+
+  isAtTop(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.bottom <= this.productHeader.getBoundingClientRect().bottom;
+  }
+
+  replaceHeader(productItemElement) {
+    const newHeaderContent = productItemElement.querySelector('.product-item__inner').innerHTML;
+    this.productHeader = document.querySelector('.quick-order-form .quick-order-list__table--sticky .product-title');
+    if (this.productHeader.innerHTML === newHeaderContent) return;
+    this.productHeader.innerHTML = newHeaderContent;
+
+    const theadElement = document.querySelector('.quick-order-list__table--sticky thead');
+    theadElement.classList.add('sticky-active');
+  }
+
+  restoreHeader() {
+    if (this.productHeader.innerHTML === this.defaultProductHeader) return;
+    this.productHeader.innerHTML = this.defaultProductHeader;
+
+    const theadElement = document.querySelector('.quick-order-list__table--sticky thead');
+    theadElement.classList.remove('sticky-active');
+  }
+
+  adjustStickyHeaderPosition() {
+    const stickyTableHeader = document.querySelector('.quick-order-list__table--sticky thead');
+    const isHeaderHidden = this.mainHeader.classList.contains('shopify-section-header-hidden');
+    const mainStickyHeaderType = document.querySelector('sticky-header')?.getAttribute('data-sticky-type') ?? null;
+
+    if (stickyTableHeader && mainStickyHeaderType) {
+      stickyTableHeader.style.top = (isHeaderHidden || mainStickyHeaderType === 'none') ? '0' : 'var(--header-height)';
+    }
+  }
+
+  checkProducts() {
+    const productItems = document.querySelectorAll('.quick-order-form .quick-order-list__table--sticky tr.product');
+    const visibleProducts = Array.from(productItems).filter((element) => this.isAtTop(element));
+
+    visibleProducts.length > 0 ? this.replaceHeader(visibleProducts[visibleProducts.length - 1]) : this.restoreHeader();
+
+    this.adjustStickyHeaderPosition();
+  }
+
+  initializeStickyHeader() {
+    const activateStickyHeader = () => {
+      this.checkProducts();
+      window.removeEventListener('load', activateStickyHeader);
+    };
+
+    window.addEventListener('scroll', this.checkProducts.bind(this));
+    window.addEventListener('resize', this.adjustStickyHeaderPosition.bind(this));
+    window.addEventListener('load', activateStickyHeader);
+  }
+
   updateQuantity(id, quantity, name, action) {
     this.toggleLoading(id, true);
 
@@ -284,6 +367,9 @@ class QuickOrderList extends HTMLElement {
         } else {
           this.updateMessage(-parseInt(quantityElement.dataset.cartQuantity))
         }
+
+        // Manually update product details in the sticky header
+        this.isStickyHeaderEnabled() && this.checkProducts();
       }).catch((error) => {
         this.querySelectorAll('.loading__spinner').forEach((overlay) => overlay.classList.add('hidden'));
         this.resetQuantityInput(id);
@@ -386,6 +472,10 @@ class QuickOrderList extends HTMLElement {
       quickOrderList.classList.remove('quick-order-list__container--disabled');
       quickOrderListItems.forEach((overlay) => overlay.classList.add('hidden'));
     }
+  }
+
+  isStickyHeaderEnabled() {
+    return document.querySelector('.quick-order-form .quick-order-list__table--sticky') !== null;
   }
 }
 
