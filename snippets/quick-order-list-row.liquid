@@ -12,45 +12,49 @@
 {% # theme-check-disable %}
 {% assign cart_qty = cart | item_count_for_variant: variant.id %}
 {% # theme-check-enable %}
-
 <tr
-  class="variant-item{% unless section.settings.show_image %} variant-item--no-media{% endunless %}{% if item.available and item.unit_price_measurement %} variant-item--unit-price{% endif %}"
+  class="{% if item.has_only_default_variant or item.variants.size == 1 %}product one-variant {% endif %}variant-item{% unless section.settings.show_image %} variant-item--no-media{% endunless %}{% if item.available and item.unit_price_measurement %} variant-item--unit-price{% endif %}"
   id="Variant-{{ variant.id }}"
   data-variant-id="{{ variant.id }}"
   data-cart-qty="{{ cart_qty }}"
 >
   <td class="variant-item__inner{% unless sku and section.settings.show_sku %} variant-item__inner--no-sku{% endunless %}">
-    {%- if section.settings.show_image -%}
-      <div class="variant-item__media">
-        <div class="variant-item__image-container gradient global-media-settings{% unless image %} variant-item__image-container--no-img {% endunless %}">
-          {% if image %}
-            {%- assign img_height = 43 | divided_by: image.aspect_ratio | ceil -%}
-            {{
-              image
-              | image_url: width: 86
-              | image_tag:
-                loading: 'lazy',
-                fetchpriority: 'low',
-                decoding: 'async',
-                class: 'variant-item__image',
-                width: 43,
-                height: img_height,
-                widths: '86',
-                alt: image.alt
-              | escape
-            }}
-          {% endif %}
+    <div class="product-variant__title--wrapper">
+      {%- if section.settings.show_image or item.has_only_default_variant or item.variants.size == 1 -%}
+        <div class="variant-item__media">
+          <div class="variant-item__image-container gradient global-media-settings{% unless image %} variant-item__image-container--no-img {% endunless %}">
+            {% if image %}
+              {%- assign img_height = 43 | divided_by: image.aspect_ratio | ceil -%}
+              {{
+                image
+                | image_url: width: 86
+                | image_tag:
+                  loading: 'lazy',
+                  fetchpriority: 'low',
+                  decoding: 'async',
+                  class: 'variant-item__image',
+                  width: 43,
+                  height: img_height,
+                  widths: '86',
+                  alt: image.alt
+                | escape
+              }}
+            {% endif %}
+          </div>
         </div>
-      </div>
-    {%- endif -%}
-    <div class="small-hide medium-hide">
-      <span class="variant-item__name h4 break">{{ item.title | escape }}</span>
-      {%- if section.settings.show_sku -%}
-        <span class="variant-item__sku break">{{ sku | escape }}</span>
       {%- endif -%}
+      <div class="small-hide medium-hide">
+        {%- if item.has_only_default_variant or item.variants.size == 1 -%}
+          <a href="{{ item.url }}" class="variant-item__name h4 break">{{ item.title | escape }}</a>
+        {%- else -%}
+          <span class="variant-item__name h4 break">{{ item.title | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.show_sku -%}
+          <span class="variant-item__sku break">{{ sku | escape }}</span>
+        {%- endif -%}
+      </div>
     </div>
   </td>
-
   <td class="variant-item__details large-up-hide">
     <div class="variant-item__info">
       <span class="variant-item__name h4 break">{{ item.title | escape }}</span>
@@ -158,7 +162,6 @@
       </div>
     {%- endif -%}
   </td>
-
   <td class="variant-item__totals right large-up-hide">
     {%- render 'loading-spinner' -%}
     {% comment %} TODO: enable theme-check once `line_items_for` is accepted as valid filter {% endcomment %}
@@ -166,7 +169,6 @@
     <span class="price">{{ cart | line_items_for: item | sum: 'original_line_price' | money }}</span>
     {% # theme-check-enable %}
   </td>
-
   <td class="variant-item__quantity">
     {%- liquid
       assign check_against_inventory = true
