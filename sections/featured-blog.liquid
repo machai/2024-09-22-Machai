@@ -15,6 +15,16 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .custom-show {
+    display: flex !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-show {
+      display: flex !important;
+    }
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -134,8 +144,8 @@
           {%- endfor -%}
         {%- endif -%}
         </ul>
-        {%- if posts_exceed_limit -%}
-          <div class="slider-buttons no-js-hidden{% if section.settings.post_limit < 3 %} medium-hide{% endif %}{% if section.settings.post_limit < 2 %} small-hide{% endif %}">
+        {%- if posts_exceed_limit or posts_displayed == 2 -%}
+          <div class="slider-buttons no-js-hidden custom-show{% if posts_displayed < 3 %} medium-hide{% endif %}{% if posts_displayed < 2 %} small-hide{% endif %}">
             <button
               type="button"
               class="slider-button slider-button--prev"
