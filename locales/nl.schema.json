@@ -3349,6 +3349,20 @@
       "presets": {
         "name": "Snelle lijst met bestellingen"
       }
+    },
+    "quick-order-form": {
+      "name": "Snel bestelformulier",
+      "settings": {
+        "show_variant_image": {
+          "label": "Afbeeldingen van varianten weergeven"
+        },
+        "show_sku": {
+          "label": "SKU's weergeven"
+        }
+      },
+      "presets": {
+        "name": "Snel bestelformulier"
+      }
     }
   }
 }

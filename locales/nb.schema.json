@@ -3349,6 +3349,20 @@
       "presets": {
         "name": "Hurtigordreliste"
       }
+    },
+    "quick-order-form": {
+      "name": "Hurtigordreskjema",
+      "settings": {
+        "show_variant_image": {
+          "label": "Vis variantbilder"
+        },
+        "show_sku": {
+          "label": "Vis SKU-er"
+        }
+      },
+      "presets": {
+        "name": "Hurtigordreskjema"
+      }
     }
   }
 }
