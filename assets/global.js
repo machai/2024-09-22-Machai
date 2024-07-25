@@ -75,13 +75,21 @@ document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
   if (summary.nextElementSibling.getAttribute('id')) {
     summary.setAttribute('aria-controls', summary.nextElementSibling.id);
   }
+});
 
-  summary.addEventListener('click', (event) => {
-    event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
-  });
+document.addEventListener('click', (event) => {
+  const target = event.target.closest('[id^="Details-"] summary');
+  if (target) {
+    target.setAttribute('aria-expanded', !target.closest('details').hasAttribute('open'));
+  }
+});
 
-  if (summary.closest('header-drawer, menu-drawer')) return;
-  summary.parentElement.addEventListener('keyup', onKeyUpEscape);
+document.addEventListener('keyup', (event) => {
+  const target = event.target.closest('[id^="Details-"] summary');
+  if (target && !event.target.closest('header-drawer, menu-drawer')) {
+    event.target = target;
+    onKeyUpEscape(event);
+  }
 });
 
 const trapFocusHandlers = {};
