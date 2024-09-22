@@ -4,6 +4,12 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
+<!-- Adding Swiper CDN links -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+>
+
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {% endif %}
@@ -84,10 +90,13 @@
       {% endif %}
     </div>
 
+    <!-- Swiper Container -->
     <div class="swiper-container">
+      <!-- Wrapper for slides -->
       <div class="swiper-wrapper">
         {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
           <div class="swiper-slide">
+            <!-- Render card-product snippet which includes the product image -->
             {% render 'card-product',
               card_product: product,
               media_aspect_ratio: section.settings.image_ratio,
@@ -102,7 +111,7 @@
           </div>
         {%- endfor -%}
       </div>
-      <!-- Add navigation -->
+      <!-- Swiper Navigation -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
     </div>
@@ -124,7 +133,8 @@
   </div>
 </div>
 
-<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+<!-- Adding Swiper CDN Script -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
