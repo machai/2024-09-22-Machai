@@ -84,19 +84,25 @@
     </div>
 
     <!-- Swiper slider start -->
+    <!-- Swiper slider start -->
     <swiper-container
       class="mySwiper"
       pagination="true"
       pagination-clickable="true"
       space-between="30"
-      slides-per-view="7"
-      breakpoints='
-        {
-          "600": { "slidesPerView": 2, "spaceBetween": 20 },
-          "1024": { "slidesPerView": 4, "spaceBetween": 30 }
-        }
-      '
+      slides-per-view="4"
+      <!--
+      Default
+      for
+      larger
+      screens
+      --
     >
+      breakpoints='{ "0": { "slidesPerView": 2, "spaceBetween": 20 },
+      <!-- Show 2 products on mobile -->
+      "1024": { "slidesPerView": 4, "spaceBetween": 30 }
+      <!-- Show 4 products on larger screens -->
+      }' >
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
         <swiper-slide>
           <div class="product-card">
@@ -130,6 +136,8 @@
     </swiper-container>
     <!-- Swiper slider end -->
 
+    <!-- Swiper slider end -->
+
     <!-- View All Button -->
     {%- if section.settings.show_view_all and more_in_collection -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -155,6 +163,8 @@
       .swiper-slide {
         max-width: 100%;
       }
+
+
   {% comment %}
       .swiper-container {
         width: 100%;
