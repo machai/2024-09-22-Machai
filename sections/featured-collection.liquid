@@ -151,6 +151,17 @@
       <!-- Dots navigation -->
     </slider-component>
 
+    <style>
+      .swiper-pagination-bullet {
+        background-color: #000; /* Adjust color as needed */
+        opacity: 0.5;
+      }
+
+      .swiper-pagination-bullet-active {
+        opacity: 1;
+      }
+    </style>
+
     <!-- Swiper Initialization Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -175,17 +186,6 @@
         });
       });
     </script>
-
-    <style>
-      .swiper-pagination-bullet {
-        background-color: #000; /* Adjust color as needed */
-        opacity: 0.5;
-      }
-
-      .swiper-pagination-bullet-active {
-        opacity: 1;
-      }
-    </style>
 
     {%- if section.settings.show_view_all and more_in_collection -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
