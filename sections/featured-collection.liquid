@@ -4,12 +4,6 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
-<!-- Adding Swiper CDN links -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
->
-
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {% endif %}
@@ -133,8 +127,7 @@
   </div>
 </div>
 
-<!-- Adding Swiper CDN Script -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="/assets/swiper-bundle.min.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
