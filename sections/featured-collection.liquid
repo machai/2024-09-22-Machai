@@ -147,11 +147,34 @@
         {%- endfor -%}
       </ul>
       <!-- Pagination dots for slider -->
-      {%- if show_mobile_slider or show_desktop_slider -%}
-        <div class="swiper-pagination"></div>
-        <!-- Dots navigation -->
-      {%- endif -%}
+      <div class="swiper-pagination"></div>
+      <!-- Dots navigation -->
     </slider-component>
+
+    <!-- Swiper Initialization Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper('#Slider-{{ section.id }}', {
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            type: 'bullets',
+          },
+          slidesPerView: 2, // Adjust per your design
+          spaceBetween: 30, // Adjust spacing
+          breakpoints: {
+            600: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+          },
+        });
+      });
+    </script>
 
     <style>
       .swiper-pagination-bullet {
