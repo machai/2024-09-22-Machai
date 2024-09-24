@@ -87,7 +87,7 @@
         "view_all_style": "outline",
         "enable_desktop_slider": true,
         "color_scheme": "scheme-2",
-        "image_ratio": "portrait",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": true,
