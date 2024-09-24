@@ -182,10 +182,54 @@
   h2.title.inline-richtext.h1.scroll-trigger.animate--slide-in {
     text-align: center;
   }
+
+  /* Add horizontal scroll to the product grid */
+  .grid.product-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px; /* Adjust spacing between items */
+    scrollbar-width: thin; /* For Firefox */
+  }
+
+  .grid.product-grid::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .grid.product-grid::-webkit-scrollbar-thumb {
+    background-color: #888; /* Scrollbar color */
+    border-radius: 10px;
+  }
+
+  .grid.product-grid::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Scrollbar track color */
+  }
+
+  .slider-component {
+    padding-bottom: 20px; /* Space below the grid for scrollbar */
+  }
+
+  .grid__item {
+    flex: 0 0 auto; /* Prevent items from shrinking */
+    scroll-snap-align: start;
+    width: calc(100% / 2 - 10px); /* Adjust item width for mobile */
+  }
+
+  @media (min-width: 600px) {
+    .grid__item {
+      width: calc(100% / 2 - 10px); /* Adjust item width for tablets */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid__item {
+      width: calc(100% / 4 - 10px); /* Adjust item width for desktop */
+    }
+  }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  {% comment %} document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('#Slider-{{ section.id }}', {
       pagination: {
         el: '.swiper-pagination',
@@ -205,7 +249,31 @@
         },
       },
     });
+  }); {% endcomment %}
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('#Slider-{{ section.id }}', {
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        type: 'bullets',
+      },
+      slidesPerView: 2,
+      spaceBetween: 30,
+      breakpoints: {
+        600: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        },
+      },
+    });
   });
+
 
   const swiper = new Swiper('.swiper', {
     direction: 'vertical',
@@ -227,6 +295,7 @@
     },
   });
 </script>
+
 {% schema %}
 {
   "name": "t:sections.featured-collection.name",
