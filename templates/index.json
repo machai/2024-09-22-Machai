@@ -15,8 +15,8 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
+            "heading": "",
+            "heading_size": "h2"
           }
         },
         "text": {
@@ -44,6 +44,7 @@
         "button"
       ],
       "settings": {
+        "image": "shopify://shop_images/DALL_E_2024-09-24_08.11.20_-_A_dynamic_and_energetic_scene_capturing_the_essence_of_extreme_games_featuring_skateboards_fashion_and_music._In_the_foreground_vibrant_skateboard.webp",
         "image_overlay_opacity": 40,
         "image_height": "large",
         "desktop_content_position": "bottom-center",
