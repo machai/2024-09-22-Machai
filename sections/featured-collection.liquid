@@ -126,6 +126,16 @@
       <!-- Dots navigation -->
     </slider-component>
 
+    {% if section.settings.slider_title != blank %}
+      <h2>{{ section.settings.slider_title }}</h2>
+    {% endif %}
+
+    {% if section.settings.slider_button_url != blank and section.settings.slider_button_text != blank %}
+      <a href="{{ section.settings.slider_button_url }}" class="button">
+        {{ section.settings.slider_button_text }}
+      </a>
+    {% endif %}
+
     <!-- Content Managed Button -->
     {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
