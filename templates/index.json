@@ -47,14 +47,14 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "The Best Extreme Shop In Town",
+            "heading": "<strong>The Best Extreme Shop In Town</strong>",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+            "text": "<p>Welcome to the Extreme Bike & Skateboard Shop—your ultimate destination for adrenaline-fueled adventures. Discover top-of-the-line bikes, skateboards, and gear, designed for thrill-seekers who live life on the edge. Get ready to ride like never before!</p>"
           }
         }
       },
@@ -67,8 +67,8 @@
         "content_alignment": "center",
         "color_scheme": "scheme-1",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 32
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "featured_collection": {
@@ -114,7 +114,7 @@
         "product": {
           "type": "product",
           "settings": {
-            "product": "the-hidden-snowboard",
+            "product": "the-multi-managed-snowboard",
             "second_image": true
           }
         },
