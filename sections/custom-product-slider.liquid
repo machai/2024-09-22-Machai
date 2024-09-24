@@ -60,79 +60,60 @@
 {%- endif -%}
 
 <style>
-    ul.slick-dots {
-        display: block !important;
-      }
-
-    span i.slick-arrow-left {
-        height: 35px;
-        width: 35px;
-        background: #fff;
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        left: 1%;
-        top: 45%;
-        border-radius: 30%;
-        opacity: 0.7;
-        z-index: 1;
-        cursor: pointer;
-      }
-      span i.slick-arrow-right {
-        height: 35px;
-        width: 35px;
-        background: #fff;
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        right: 1%;
-        top: 45%;
-        border-radius: 30%;
-        opacity: 0.7;
-        cursor: pointer;
-      }
-      span .icon.icon-chevron-left,
-      span .icon.icon-chevron-right {
-        display: inline !important;
-        z-index: 1;
-        fill: inherit;
-      }
-      @media screen and (max-width: 479px) {
-        /* start of phone styles */
-        span i.slick-arrow-left,
-        span i.slick-arrow-right {
-          display: none !important;
-        }
-      }
-
-
-    .slick-dots li button:before,
-    .slick-dots li a:before {
+  .slick-product-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  ul.slick-dots {
+    display: block !important;
+  }
+  span i.slick-arrow-left, span i.slick-arrow-right {
+    height: 35px;
+    width: 35px;
+    background: #fff;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 45%;
+    border-radius: 30%;
+    opacity: 0.7;
+    z-index: 1;
+    cursor: pointer;
+  }
+  span i.slick-arrow-left { left: 1%; }
+  span i.slick-arrow-right { right: 1%; }
+  @media screen and (max-width: 479px) {
+    span i.slick-arrow-left, span i.slick-arrow-right {
+      display: none !important;
+    }
+  }
+  .slick-dots li button:before,
+  .slick-dots li a:before {
     color: #3a3a3a !important;
-    }
-    .section-header__title {
+  }
+  .section-header__title {
     text-align: center !important;
-    }
-    .box-wrapper{
+  }
+  .box-wrapper {
     width: 100%;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     overflow: hidden;
     margin: 5px;
-    }
-    .slide-img {
+  }
+  .slide-img {
     height: 200px;
     position: relative;
-    }
-    .slide-img img {
+  }
+  .slide-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     box-sizing: border-box;
-    }
-    .detail-box {
+  }
+  .detail-box {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -140,41 +121,40 @@
     padding: 10px 10px;
     box-sizing: border-box;
     background-color: {{ section.settings.detail-box }};
-    }
-    .type {
+  }
+  .type {
     display: flex;
     flex-direction: column;
-    }
-    .type a {
+  }
+  .type a {
     color: ##134D47;
     margin: 0px 28px;
     font-weight: 600;
     letter-spacing: 0.5px;
     padding-right: 0px;
-    }
-    .type span {
+  }
+  .type span {
     color: #FFFFFF;
-    }
-    .price {
+  }
+  .price {
     color: #333333;
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    }
-    .overlay {
+  }
+  .overlay {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 100
-      %;
+    width: 100%;
     height: 100%;
-    background-color: {{ section.settings.color_bg--overlay | color_modify: 'alpha', 0.6}};
+    background-color: {{ section.settings.color_bg--overlay | color_modify: 'alpha', 0.6 }};
     display: flex;
     justify-content: center;
     align-items: center;
-    }
-    .buy-btn {
+  }
+  .buy-btn {
     width: 160px;
     height: 40px;
     display: flex;
@@ -186,167 +166,30 @@
     letter-spacing: 1px;
     border-radius: {{section.settings.buybtn-radius}}px;
     box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
-    }
-    .buy-btn:hover {
+  }
+  .buy-btn:hover {
     color: #FFFFFF !important;
     background-color: {{ section.settings.color_bg--buyBtn }};
     transition: all ease 0.3s;
-    }
-    .overlay {
-    visibility: hidden;
-    }
-    .slide-img:hover .overlay {
+  }
+  .overlay { visibility: hidden; }
+  .slide-img:hover .overlay {
     visibility: visible;
     animation: fade 0.5s;
-    }
-    @keyframes fade {
-    0% {
-    opacity: 0;
-    }
-    100% {
-    opacity: 1;
-    }
-    }
-    :focus {
-    outline: none !important;
-    }
-    .slick-dots li button::before {
-    font-size: 22px !important;
-    }
-    span .icon.icon-chevron-left,
-    span .icon.icon-chevron-right {
-    display: none !important;
-    }
-    ul.slick-dots {
-    display: none !important;
-    }
-    @media screen and (max-width: 479px) {
-    /* start of phone styles */
-    .box-wrapper {
-    width: 265px;
-    }
-    .type a {
-    font-size: 16px;
-    }
-    .type span {
-    font-size: 16px;
-    }
-    .detail-box {
-    padding: 10px !important;
-    }
-    }
+  }
+  @keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @media screen and (max-width: 479px) {
+    .box-wrapper { width: 265px; }
+    .type a, .type span { font-size: 16px; }
+    .detail-box { padding: 10px !important; }
+  }
   .item-a {
-  	padding: 10px;
+    padding: 10px;
   }
 </style>
-
-{% schema %}
-{
-  "name": "Product Carousel",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "enable",
-      "label": "Enable",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Show title",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "arrows",
-      "label": "Show arrows",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "dots",
-      "label": "Show Slider Dots",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "color_bg--overlay",
-      "label": "Overlay Color",
-      "default": "#000"
-    },
-    {
-      "type": "color",
-      "id": "detail-box",
-      "label": "Detail Box",
-      "default": "#f3f3f3"
-    },
-    {
-      "type": "text",
-      "id": "btn-title",
-      "default": "View More",
-      "label": "Button Title"
-    },
-    {
-      "type": "color",
-      "id": "color_bg--buyBtn",
-      "label": "Button Color on Hover",
-      "default": "#CBD5CC"
-    },
-    {
-      "type": "range",
-      "id": "buybtn-radius",
-      "min": 1,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Button Radius",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "card-width",
-      "min": 300,
-      "max": 440,
-      "step": 10,
-      "unit": "px",
-      "label": "Card Width",
-      "default": 350
-    }
-  ],
-  "blocks": [
-    {
-      "type": "collection",
-      "name": "Collection",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Collection"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Products carousel",
-      "category": "Carousel Sections"
-    }
-  ]
-}
-{% endschema %}
-
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"
-></script>
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
-  integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
-  crossorigin="anonymous"
-></script>
 
 <script>
   $(document).ready(function () {
@@ -356,6 +199,7 @@
       speed: 300,
       slidesToShow: 4,
       slidesToScroll: 4,
+      arrows: {{ section.settings.arrows }},
       responsive: [
         {
           breakpoint: 1024,
@@ -379,10 +223,7 @@
             slidesToShow: 1,
             slidesToScroll: 1,
           },
-        },
-        // You can unslick at a given breakpoint now by adding:
-        // settings: "unslick"
-        // instead of a settings object
+        }
       ],
     });
   });
