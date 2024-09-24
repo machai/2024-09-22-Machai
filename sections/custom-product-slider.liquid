@@ -228,3 +228,99 @@
     });
   });
 </script>
+
+{% schema %}
+{
+  "name": "Product Carousel",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Show Slider Dots",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "color_bg--overlay",
+      "label": "Overlay Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "detail-box",
+      "label": "Detail Box",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "text",
+      "id": "btn-title",
+      "default": "View More",
+      "label": "Button Title"
+    },
+    {
+      "type": "color",
+      "id": "color_bg--buyBtn",
+      "label": "Button Color on Hover",
+      "default": "#CBD5CC"
+    },
+    {
+      "type": "range",
+      "id": "buybtn-radius",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Radius",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card-width",
+      "min": 300,
+      "max": 440,
+      "step": 10,
+      "unit": "px",
+      "label": "Card Width",
+      "default": 350
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products carousel",
+      "category": "Carousel Sections"
+    }
+  ]
+}
+{% endschema %}
