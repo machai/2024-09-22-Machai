@@ -126,14 +126,16 @@
       <!-- Dots navigation -->
     </slider-component>
 
-    {% if section.settings.slider_title != blank %}
-      <h2>{{ section.settings.slider_title }}</h2>
-    {% endif %}
-
     {% if section.settings.slider_button_url != blank and section.settings.slider_button_text != blank %}
-      <a href="{{ section.settings.slider_button_url }}" class="button">
-        {{ section.settings.slider_button_text }}
-      </a>
+      {% if section.settings.slider_title != blank %}
+        <h2>{{ section.settings.slider_title }}</h2>
+      {% endif %}
+
+      <div class="button-wrapper">
+        <a href="{{ section.settings.slider_button_url }}" class="button">
+          {{ section.settings.slider_button_text }}
+        </a>
+      </div>
     {% endif %}
 
     <!-- Content Managed Button -->
@@ -156,6 +158,24 @@
 </div>
 
 <!-- Swiper Initialization Script -->
+
+<style>
+  .button-wrapper {
+    display: flex;
+    justify-content: center; /* Centers the button horizontally */
+    margin: 20px 0; /* Optional: add space above and below */
+  }
+
+  .button {
+    padding: 10px 20px; /* Adjust button padding */
+    background-color: #000; /* Customize background color */
+    color: #fff; /* Customize text color */
+    text-align: center; /* Ensures the text is centered within the button */
+    text-decoration: none; /* Removes underline from the link */
+    border-radius: 5px; /* Optional: rounded corners */
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('#Slider-{{ section.id }}', {
