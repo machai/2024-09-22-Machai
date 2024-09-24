@@ -71,12 +71,12 @@
         "enable": true,
         "show_title": true,
         "arrows": true,
-        "dots": false,
-        "color_bg--overlay": "#000",
+        "dots": true,
+        "color_bg--overlay": "#000000",
         "detail-box": "#f3f3f3",
         "btn-title": "View More",
-        "color_bg--buyBtn": "#CBD5CC",
-        "buybtn-radius": 20,
+        "color_bg--buyBtn": "#cbd5cc",
+        "buybtn-radius": 16,
         "card-width": 340
       }
     }
