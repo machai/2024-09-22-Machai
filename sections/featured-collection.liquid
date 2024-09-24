@@ -219,6 +219,12 @@
     .grid__item {
       width: calc(100% / 2 - 10px); /* Adjust item width for tablets */
     }
+
+    .button-wrapper {
+      display: flex;
+      justify-content: left;
+      margin: 20px 19px;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -229,29 +235,6 @@
 </style>
 
 <script>
-  {% comment %} document.addEventListener('DOMContentLoaded', function () {
-    const swiper = new Swiper('#Slider-{{ section.id }}', {
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        type: 'bullets',
-      },
-      slidesPerView: 2, // Adjust per your design
-      spaceBetween: 30, // Adjust spacing
-      breakpoints: {
-        600: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 30,
-        },
-      },
-    });
-  }); {% endcomment %}
-
-
   document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('#Slider-{{ section.id }}', {
       pagination: {
@@ -273,7 +256,6 @@
       },
     });
   });
-
 
   const swiper = new Swiper('.swiper', {
     direction: 'vertical',
