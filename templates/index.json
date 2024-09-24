@@ -12,24 +12,10 @@
     "image_banner": {
       "type": "image-banner",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
+            "button_label_1": "View  Latest Extreme Collection",
             "button_link_1": "shopify://collections/all",
             "button_style_secondary_1": true,
             "button_label_2": "",
@@ -39,11 +25,10 @@
         }
       },
       "block_order": [
-        "heading",
-        "text",
         "button"
       ],
       "settings": {
+        "image": "shopify://shop_images/DALL_E_2024-09-24_08.11.20_-_A_dynamic_and_energetic_scene_capturing_the_essence_of_extreme_games_featuring_skateboards_fashion_and_music._In_the_foreground_vibrant_skateboard.webp",
         "image_overlay_opacity": 40,
         "image_height": "large",
         "desktop_content_position": "bottom-center",
@@ -62,7 +47,7 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Talk about your brand",
+            "heading": "The Best Extreme Shop In Town",
             "heading_size": "h1"
           }
         },
@@ -83,14 +68,14 @@
         "color_scheme": "scheme-1",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 0
+        "padding_bottom": 32
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Latest Products",
-        "heading_size": "h2",
+        "title": "<strong>Our Latest Collections</strong>",
+        "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
@@ -99,19 +84,19 @@
         "columns_desktop": 4,
         "full_width": true,
         "show_view_all": true,
-        "view_all_style": "link",
+        "view_all_style": "outline",
         "enable_desktop_slider": true,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "image_ratio": "square",
-        "image_shape": "default",
+        "image_shape": "chevronleft",
         "show_secondary_image": true,
         "show_vendor": true,
         "show_rating": false,
-        "quick_add": "none",
+        "quick_add": "standard",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
-        "padding_top": 28,
-        "padding_bottom": 28,
+        "padding_top": 52,
+        "padding_bottom": 40,
         "slider_title": "",
         "slider_button_url": "shopify://products/the-collection-snowboard-oxygen",
         "slider_button_text": "Shop Now"
