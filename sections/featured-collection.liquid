@@ -67,12 +67,14 @@
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
+    <!-- Section Title -->
     <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
+
       {%- if section.settings.description != blank
         or section.settings.show_description
         and section.settings.collection.description != empty
@@ -116,55 +118,33 @@
             %}
           </li>
           {%- assign skip_card_product_styles = true -%}
-        {%- else -%}
-          {%- for i in (1..section.settings.columns_desktop) -%}
-            <li
-              class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {% if settings.animations_reveal_on_scroll %}
-                data-cascade style="--animation-order: {{ forloop.index }};"
-              {% endif %}
-            >
-              {% liquid
-                assign ridx = forloop.rindex
-                case ridx
-                  when 5
-                    assign ridx = 1
-                  when 6
-                    assign ridx = 2
-                endcase
-              %}
-              {%- assign placeholder_image = 'product-apparel-' | append: ridx -%}
-              {% render 'card-product',
-                show_vendor: section.settings.show_vendor,
-                media_aspect_ratio: section.settings.image_ratio,
-                image_shape: section.settings.image_shape,
-                placeholder_image: placeholder_image
-              %}
-            </li>
-          {%- endfor -%}
         {%- endfor -%}
       </ul>
+
       <!-- Pagination dots for slider -->
       <div class="swiper-pagination"></div>
       <!-- Dots navigation -->
     </slider-component>
 
-    {%- if section.settings.show_view_all and more_in_collection -%}
+    <!-- Content Managed Button -->
+    {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <a
-          href="{{ section.settings.collection.url }}"
-          class="{% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
-          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
+          href="{{ section.settings.button_url }}"
+          class="button button--primary"
+          aria-label="{{ section.settings.button_text }}"
         >
-          {{ 'sections.featured_collection.view_all' | t }}
+          {{ section.settings.button_text }}
         </a>
       </div>
     {%- endif -%}
+
     {% if section.settings.image_shape == 'arch' %}
       {{ 'mask-arch.svg' | inline_asset_content }}
     {%- endif -%}
   </div>
 </div>
+
 <!-- Swiper Initialization Script -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -209,7 +189,6 @@
     },
   });
 </script>
-
 {% schema %}
 {
   "name": "t:sections.featured-collection.name",
@@ -506,6 +485,23 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "text",
+      "id": "slider_title",
+      "default": "Default Slider Title",
+      "label": "Slider Title"
+    },
+    {
+      "type": "url",
+      "id": "slider_button_url",
+      "label": "Slider Button URL"
+    },
+    {
+      "type": "text",
+      "id": "slider_button_text",
+      "default": "Shop Now",
+      "label": "Slider Button Text"
     }
   ],
   "presets": [
