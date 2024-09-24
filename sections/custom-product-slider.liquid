@@ -1,4 +1,113 @@
+{%- if section.settings.arrows -%}
+{%- endif -%}
+{%- if section.settings.dots -%}
+{%- endif -%}
+{%- if section.settings.enable -%}
+  <div class="index-section">
+    <div class="page-width">
+      {%- if section.settings.show_title -%}
+        <h2 class="section-header__title">
+          {%- for block in section.blocks -%}
+            {{ collections[block.settings.collection].title }}
+          {%- endfor -%}
+        </h2>
+      {%- endif -%}
+      <section>
+        <ul class="slick slick-product-list">
+          {%- for block in section.blocks -%}
+            {%- for product in collections[block.settings.collection].products -%}
+              <li class="item-a">
+                <!-- box-slider------------- -->
+
+                <div class="box-wrapper">
+                  <!-- img-box-------- -->
+
+                  <div class="slide-img">
+                    <img
+                      style="object-fit: contain;"
+                      src="{{ product.featured_image.src | img_url: "large" }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                    >
+
+                    <!-- overlayer-------- -->
+                    <a href="{{ product.url | within: collection }}">
+                      <div class="overlay">
+                        <!-- buy-btn---- -->
+                        <span class="buy-btn">{{ section.settings['btn-title'] }}</span>
+                      </div>
+                    </a>
+                  </div>
+                  <!-- detail-box------- -->
+                  <div class="detail-box">
+                    <!-- price------ -->
+                    <a href="{{ product.url | within: collection }}" class="price">{{ product.price | money }}</a>
+                    <!-- type------ -->
+                    <div class="type">
+                      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                      <span>{{ product.vendor }}</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              The collection is empty!
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+      </section>
+    </div>
+  </div>
+{%- endif -%}
+
 <style>
+    ul.slick-dots {
+        display: block !important;
+      }
+
+    span i.slick-arrow-left {
+        height: 35px;
+        width: 35px;
+        background: #fff;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 1%;
+        top: 45%;
+        border-radius: 30%;
+        opacity: 0.7;
+        z-index: 1;
+        cursor: pointer;
+      }
+      span i.slick-arrow-right {
+        height: 35px;
+        width: 35px;
+        background: #fff;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        right: 1%;
+        top: 45%;
+        border-radius: 30%;
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      span .icon.icon-chevron-left,
+      span .icon.icon-chevron-right {
+        display: inline !important;
+        z-index: 1;
+        fill: inherit;
+      }
+      @media screen and (max-width: 479px) {
+        /* start of phone styles */
+        span i.slick-arrow-left,
+        span i.slick-arrow-right {
+          display: none !important;
+        }
+      }
+
+
     .slick-dots li button:before,
     .slick-dots li a:before {
     color: #3a3a3a !important;
@@ -130,115 +239,6 @@
   	padding: 10px;
   }
 </style>
-{%- if section.settings.arrows -%}
-  <style>
-    span i.slick-arrow-left {
-      height: 35px;
-      width: 35px;
-      background: #fff;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      left: 1%;
-      top: 45%;
-      border-radius: 30%;
-      opacity: 0.7;
-      z-index: 1;
-      cursor: pointer;
-    }
-    span i.slick-arrow-right {
-      height: 35px;
-      width: 35px;
-      background: #fff;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      right: 1%;
-      top: 45%;
-      border-radius: 30%;
-      opacity: 0.7;
-      cursor: pointer;
-    }
-    span .icon.icon-chevron-left,
-    span .icon.icon-chevron-right {
-      display: inline !important;
-      z-index: 1;
-      fill: inherit;
-    }
-    @media screen and (max-width: 479px) {
-      /* start of phone styles */
-      span i.slick-arrow-left,
-      span i.slick-arrow-right {
-        display: none !important;
-      }
-    }
-  </style>
-{%- endif -%}
-{%- if section.settings.dots -%}
-  <style>
-    ul.slick-dots {
-      display: block !important;
-    }
-  </style>
-{%- endif -%}
-{%- if section.settings.enable -%}
-  <div class="index-section">
-    <div class="page-width">
-      {%- if section.settings.show_title -%}
-        <h2 class="section-header__title">
-          {%- for block in section.blocks -%}
-            {{ collections[block.settings.collection].title }}
-          {%- endfor -%}
-        </h2>
-      {%- endif -%}
-      <section>
-        <ul class="slick slick-product-list">
-          {%- for block in section.blocks -%}
-            {%- for product in collections[block.settings.collection].products -%}
-              <li class="item-a">
-                <!-- box-slider------------- -->
-
-                <div class="box-wrapper">
-                  <!-- img-box-------- -->
-
-                  <div class="slide-img">
-                    <img
-                      style="object-fit: contain;"
-                      src="{{ product.featured_image.src | img_url: "large" }}"
-                      alt="{{ product.featured_image.alt | escape }}"
-                    >
-
-                    <!-- overlayer-------- -->
-                    <a href="{{ product.url | within: collection }}">
-                      <div class="overlay">
-                        <!-- buy-btn---- -->
-                        <span class="buy-btn">{{ section.settings['btn-title'] }}</span>
-                      </div>
-                    </a>
-                  </div>
-                  <!-- detail-box------- -->
-                  <div class="detail-box">
-                    <!-- price------ -->
-                    <a href="{{ product.url | within: collection }}" class="price">{{ product.price | money }}</a>
-                    <!-- type------ -->
-                    <div class="type">
-                      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-                      <span>{{ product.vendor }}</span>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            {% else %}
-              The collection is empty!
-            {%- endfor -%}
-          {%- endfor -%}
-        </ul>
-      </section>
-    </div>
-  </div>
-{%- endif -%}
 
 {% schema %}
 {
@@ -341,11 +341,13 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"
 ></script>
+
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
   integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
   crossorigin="anonymous"
 ></script>
+
 <script>
   $(document).ready(function () {
     $('.slick').slick({
