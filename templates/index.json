@@ -112,7 +112,7 @@
         "swipe_on_mobile": true,
         "padding_top": 28,
         "padding_bottom": 28,
-        "slider_title": "Latest Products",
+        "slider_title": "",
         "slider_button_url": "shopify://products/the-collection-snowboard-oxygen",
         "slider_button_text": "Shop Now"
       }
