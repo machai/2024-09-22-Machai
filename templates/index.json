@@ -47,7 +47,7 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "<strong>The Best Extreme Shop In Town</strong>",
+            "heading": "<strong>THE BEST EXTREME SHOP IN TOWN</strong>",
             "heading_size": "h1"
           }
         },
@@ -74,7 +74,7 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "<strong>Our Latest Collections</strong>",
+        "title": "<strong>OUR LATEST COLLECTIONS</strong>",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -132,7 +132,7 @@
       ],
       "settings": {
         "heading": "<strong>New Dimemension Collections</strong>",
-        "heading_size": "h2",
+        "heading_size": "h1",
         "desktop_layout": "right",
         "mobile_layout": "collage",
         "card_styles": "product-card-wrapper",
