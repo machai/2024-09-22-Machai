@@ -47,7 +47,7 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "<strong>THE BEST EXTREME SHOP IN TOWN</strong>",
+            "heading": "THE BEST EXTREME SHOP IN TOWN",
             "heading_size": "h1"
           }
         },
@@ -74,7 +74,7 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "<strong>OUR LATEST COLLECTIONS</strong>",
+        "title": "OUR LATEST COLLECTIONS",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
