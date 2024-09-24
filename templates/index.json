@@ -47,14 +47,14 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "The Best Extreme Shop In Town",
+            "heading": "<strong>THE BEST EXTREME SHOP IN TOWN</strong>",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+            "text": "<p>Welcome to the Extreme Bike & Skateboard Shop—your ultimate destination for adrenaline-fueled adventures. Discover top-of-the-line bikes, skateboards, and gear, designed for thrill-seekers who live life on the edge. Get ready to ride like never before!</p>"
           }
         }
       },
@@ -67,14 +67,14 @@
         "content_alignment": "center",
         "color_scheme": "scheme-1",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 32
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "<strong>Our Latest Collections</strong>",
+        "title": "<strong>OUR LATEST COLLECTIONS</strong>",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -88,10 +88,10 @@
         "enable_desktop_slider": true,
         "color_scheme": "scheme-2",
         "image_ratio": "square",
-        "image_shape": "chevronleft",
+        "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": true,
-        "show_rating": false,
+        "show_rating": true,
         "quick_add": "standard",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
@@ -108,20 +108,20 @@
         "collection-0": {
           "type": "collection",
           "settings": {
-            "collection": ""
+            "collection": "hydrogen"
           }
         },
         "product": {
           "type": "product",
           "settings": {
-            "product": "",
-            "second_image": false
+            "product": "the-multi-managed-snowboard",
+            "second_image": true
           }
         },
         "collection-1": {
           "type": "collection",
           "settings": {
-            "collection": ""
+            "collection": "new-arrivals"
           }
         }
       },
@@ -131,9 +131,9 @@
         "collection-1"
       ],
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
+        "heading": "<strong>New Dimemension Collections</strong>",
+        "heading_size": "h1",
+        "desktop_layout": "right",
         "mobile_layout": "collage",
         "card_styles": "product-card-wrapper",
         "color_scheme": "scheme-1",
@@ -148,6 +148,7 @@
         "heading_size": "h1",
         "enable_video_looping": false,
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "cover_image": "shopify://shop_images/theme_cover_image.jpg",
         "description": "",
         "full_width": false,
         "color_scheme": "scheme-1",
