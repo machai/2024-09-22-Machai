@@ -74,8 +74,8 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Our Latest Collections",
-        "heading_size": "h2",
+        "title": "<strong>Our Latest Collections</strong>",
+        "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
