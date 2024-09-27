@@ -1,0 +1,40 @@
+{%- comment -%}
+  Parameters:
+  - desktop_image {Image}: Image to show on desktop screens.
+  - mobile_image {Image}: Image to show on mobile screens.
+  - loading {String}: Passed through to 'image' snippet.
+  - fetchpriority {String}: Passed through to 'image' snippet.
+  - block {Block} [optional]: Used to generate a unique ID for assigning styles to this image. If not provided, section ID is used.
+
+  Usage:
+  {%- render 'image-desktop-and-mobile', desktop_image: block.settings.image, mobile_image: block.settings.mobile_image, loading: loading, fetchpriority: fetchpriority, block: block -%}
+{%- endcomment -%}
+
+{%- liquid
+  if block
+    assign picture_id = 'picture-' | append: block.id
+  elsif section
+    assign picture_id = 'picture-' | append: section.id
+  else
+    assign picture_id = nil
+  endif
+-%}
+{%- if mobile_image -%}
+  {%- if picture_id -%}
+  <style>
+    @media (max-width: 767.98px) {
+      #{{ picture_id }} img {
+        object-position: {{ mobile_image.presentation.focal_point }} !important;
+      }
+    }
+  </style>
+  {%- endif -%}
+  <picture{% if picture_id %} id="{{ picture_id }}"{% endif %}{% if class %} class="{{ class }}"{% endif %}>
+    {%- liquid
+      render 'image' with mobile_image, loading: loading, as_mobile_source: true
+      render 'image' with desktop_image, loading: loading, size_cols_desktop: size_cols_desktop, fetchpriority: fetchpriority
+    -%}
+  </picture>
+{%- else -%}
+  {%- render 'image' with desktop_image, class: class, loading: loading, size_cols_desktop: size_cols_desktop, fetchpriority: fetchpriority -%}
+{%- endif -%}

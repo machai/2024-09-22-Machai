@@ -1,0 +1,68 @@
+video-component {
+  display: block;
+}
+
+.video-section .height--adapt {
+  --aspect-ratio: 1.778;
+}
+
+.video-section video-component,
+.video-section deferred-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.video-section video {
+  object-fit: cover;
+}
+.video-section video,
+.video-section iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-section__bg-iframe-video {
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  padding-top: 56.3%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.video-section__bg-iframe-video .has-iframe {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  width: 100%;
+  height: calc(100% + 120px);
+  transform: translateX(-50%);
+}
+
+.video-section--played .video-played-hidden,
+.video-section deferred-media[loaded] .video-played-hidden {
+  transition: opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-section__play-btn {
+  transition: transform 150ms;
+}
+.video-section__play-btn:hover {
+  transform: scale(1.1);
+}
+.video-section__play-btn svg {
+  width: 80px;
+  height: 80px;
+}
+
+video-section-play-button {
+  cursor: pointer;
+}

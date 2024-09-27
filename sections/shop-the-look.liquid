@@ -1,0 +1,921 @@
+<link rel="stylesheet" href="{{ 'shop-the-look.css' | asset_url }}" {%- render 'lazy-stylesheet-attrs' %}>
+{%- if section.blocks.size > 1 -%}
+  <script src="{{ 'slideshow.js' | asset_url }}" defer></script>
+{%- endif -%}
+{%- if section.settings.video_shopify != blank or section.settings.video_external != blank -%}
+  <link rel="stylesheet" href="{{ 'video.css' | asset_url }}" {%- render 'lazy-stylesheet-attrs' %}>
+  <script src="{{ 'video.js' | asset_url }}" defer></script>
+{%- endif -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'countdown' -%}
+    <script src="{{ 'countdown-timer.js' | asset_url }}" defer></script>
+  {%- endif -%}
+{%- endfor -%}
+
+{%- liquid
+  if section.settings.image
+    assign main_image = section.settings.image
+  elsif section.settings.video_shopify
+    assign main_image = section.settings.video_shopify.preview_image
+  endif
+
+  assign show_text_content = false
+  if section.blocks != empty
+    assign show_text_content = true
+  endif
+
+  if section.settings.show_swatches
+    assign hide_swatches = false
+  else
+    assign hide_swatches = true
+  endif
+
+  if section.settings.product_list != blank
+    if settings.prod_thumb_shape == 'portrait-23'
+      assign chosen_aspect_ratio = 0.67
+    elsif settings.prod_thumb_shape == 'portrait-45'
+      assign chosen_aspect_ratio = 0.8
+    elsif settings.prod_thumb_shape == 'square'
+      assign chosen_aspect_ratio = 1.0
+    elsif settings.prod_thumb_shape == 'landscape-54'
+      assign chosen_aspect_ratio = 1.25
+    elsif settings.prod_thumb_shape == 'landscape-32'
+      assign chosen_aspect_ratio = 1.50
+    elsif settings.prod_thumb_shape == 'tallest'
+      assign chosen_aspect_ratio = 99
+      for product in section.settings.product_list
+        if product.featured_media.preview_image.aspect_ratio < chosen_aspect_ratio
+          assign chosen_aspect_ratio = product.featured_media.preview_image.aspect_ratio
+        endif
+      endfor
+    else
+      assign chosen_aspect_ratio = 0
+      for product in section.settings.product_list
+        if product.featured_media.preview_image.aspect_ratio > chosen_aspect_ratio
+          assign chosen_aspect_ratio = product.featured_media.preview_image.aspect_ratio
+        endif
+      endfor
+    endif
+  endif
+
+  assign products_alignment_y = section.settings.products_alignment | split: ' ' | first
+-%}
+
+<image-with-text-overlay id="section-id-{{ section.id }}" class="{% if section.settings.video_shopify != blank or section.settings.video_external != blank %}video-section video-section--background{% endif %}">
+  {% style %}
+    {%- if section.settings.height == 'fixed' %}
+      #section-id-{{ section.id }} .height--fixed {
+        --image-height: {{ section.settings.height_mobile }}px;
+      }
+
+      @media (min-width: 768px) {
+        #section-id-{{ section.id }} .height--fixed {
+          --image-height: {{ section.settings.height_desktop }}px;
+        }
+      }
+    {%- elsif section.settings.height == 'adapt' -%}
+      #section-id-{{ section.id }} .height--adapt {
+        {%- if section.settings.mobile_image -%}
+          --aspect-ratio: {{ section.settings.mobile_image.aspect_ratio }};
+        {%- else -%}
+          --aspect-ratio: {{ main_image.aspect_ratio | default: 2.0 }};
+        {%- endif -%}
+      }
+      {%- if section.settings.mobile_image -%}
+      @media (min-width: 768px) {
+        #section-id-{{ section.id }} .height--adapt {
+          --aspect-ratio: {{ main_image.aspect_ratio | default: 2.0 }};
+        }
+      }
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {% if block.type == 'heading' %}
+        #section-id-{{ section.id }} .block-{{ block.id }} {
+          --heading-max-width: {{ block.settings.heading_max_width }}em;
+          font-size: {{ block.settings.title_size_mobile }}px;
+          {%- if block.settings.title_size_mobile >= 90 -%}
+          line-height: 1em;
+          {%- endif %}
+          color: {{ block.settings.mb_heading_color }}
+        }
+
+        @media (min-width: 768px) {
+          #section-id-{{ section.id }} .block-{{ block.id }} {
+            {%- assign title_size_medium = block.settings.title_size | times: 0.7 | at_least: block.settings.title_size_mobile -%}
+            font-size: {{ title_size_medium }}px;
+            {%- if title_size_medium >= 90 -%}
+            line-height: 1em;
+            {%- endif %}
+            color: {{ block.settings.heading_color }}
+          }
+        }
+
+        @media (min-width: 1100px) {
+          #section-id-{{ section.id }} .block-{{ block.id }} {
+            font-size: {{ block.settings.title_size }}px;
+            {%- if block.settings.title_size >= 90 -%}
+            line-height: 1em;
+            {%- endif %}
+          }
+        }
+      {% endif %}
+
+      {% if block.type == 'text' %}
+        #section-id-{{ section.id }} .block-{{ block.id }} {
+          color: {{ block.settings.mb_text_color }};
+        }
+
+        @media (min-width: 768px) {
+          #section-id-{{ section.id }} .block-{{ block.id }} {
+            color: {{ block.settings.text_color }};
+          }
+        }
+      {% endif %}
+
+
+      {% if block.type == 'countdown' %}
+        .block-id-{{ block.id }} .countdown {
+          --countdown-desktop-size: {{ block.settings.number_size }}px;
+        }
+      {% endif %}
+    {%- endfor -%}
+  {% endstyle %}
+
+
+  <div class="
+    {%- if section.settings.full_width and section.settings.mobile_overlay_over %} mobile-container
+    {%- elsif section.settings.full_width == false -%} container fully-spaced-row--medium fully-spaced-row--not-mobile
+      {%- if section.settings.mobile_overlay_over == false %} container--not-mobile{% endif -%}
+    {%- endif %}">
+
+    {% if section.settings.mobile_overlay_over and show_text_content %}
+      <div class="mobile-only spaced-row-above lightish-spaced-row align-center">
+        {% assign skip_block_count = 0 %}
+        {% for block in section.blocks %}
+          {%- liquid
+            if skip_block_count > 0
+              assign skip_block_count = skip_block_count | minus: 1
+              continue
+            endif
+          -%}
+          {% case block.type %}
+            {% when 'heading' %}
+              {% if block.settings.use_h1 %}
+                <h1 class="block-{{ block.id }}">{% render 'multiline-text' with block.settings.title %}</h1>
+              {% else %}
+                <h2 class="h1 block-{{ block.id }}">{% render 'multiline-text' with block.settings.title %}</h2>
+              {% endif %}
+
+            {% when 'subheading' %}
+              <div class="subheading subheading--over lightish-spaced-row-above">{{ block.settings.subheading | escape }}</div>
+
+            {% when 'text' %}
+              <div class="rte lightly-spaced-row {% if block.settings.enlarge_text %}large-text{% endif %}">{{ block.settings.text }}</div>
+
+            {% when 'button' %}
+              <div class="button-row lightish-spaced-row-above">
+                <a class="button-row__btn {% if block.settings.button_style != 'link' %}btn btn--{{ block.settings.button_style }}{% else %}small-feature-link{% endif %}" href="{{ block.settings.button_link }}">{{ block.settings.button_label | escape }}</a>
+                {%- assign skip_block_count = 0 -%}
+                {%- for next_block in section.blocks offset: forloop.index -%}
+                  {%- if next_block.type == 'button' -%}
+                    {%- assign skip_block_count = skip_block_count | plus: 1 -%}
+                    <a class="button-row__btn {% if next_block.settings.button_style != 'link' %}btn btn--{{ next_block.settings.button_style }}{% else %}small-feature-link{% endif %}" href="{{ next_block.settings.button_link }}">{{ next_block.settings.button_label | escape }}</a>
+                  {%- else -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+            {%- when 'countdown' -%}
+              <div class="block-id-{{ block.id }} lightly-spaced-row lightish-spaced-row-above countdown-font-{{ block.settings.number_font }} countdown-divider-{{ block.settings.divider_type }}">
+                {% render 'countdown-timer',
+                  end_date: block.settings.end_date,
+                  end_time: block.settings.end_time,
+                  end_text: block.settings.end_text,
+                  end_midnight: true,
+                  hide_on_end: block.settings.hide_on_end,
+                  show_labels: block.settings.show_timer_labels
+                %}
+              </div>
+
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  <div class="height--{{ section.settings.height }} image-overlay image-overlay--bg-{{ section.settings.overlay_style }}{% if section.settings.mobile_overlay_over and show_text_content %} image-overlay--bg-desktop-only{% endif %}" {%- render 'animation-attrs', attrs: 'data-cc-animate' -%}>
+      {%- if section.settings.image == blank and section.settings.video_shopify == blank and section.settings.video_external == blank -%}
+        <div class="height__image image-overlay__image">
+          <div class="placeholder-image{% if show_text_content %} dark{% endif %}">
+            {{- 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' -}}
+          </div>
+        </div>
+      {%- else -%}
+        <div class="height__image image-overlay__image">
+          {%- if section.settings.video_shopify != blank or section.settings.video_external != blank -%}
+            <div class="{% unless section.settings.video_shopify %}video-section__bg-iframe-video{% endunless %}">
+              <deferred-media>
+                <template>
+                  <video-component class="{% if section.settings.video_shopify %}has-video{% else %}has-iframe{% endif %}"
+                    {%- unless section.settings.video_shopify %} data-video-url="{{ section.settings.video_external | escape }}"{% endunless %}
+                                  data-video-id="{{ section.id }}"
+                                  data-autoplay="true"
+                                  data-background="true"
+                                  data-description="{{ section.settings.video_description | escape }}">
+                    {%- if section.settings.video_shopify -%}
+                      {{ section.settings.video_shopify | video_tag: playsinline: true, autoplay: true, muted: true, loop: true, poster: '' | replace: '<img ', '<img loading="lazy" hidden ' }}
+                    {%- else -%}
+                      <div></div>
+                    {%- endif -%}
+                  </video-component>
+                </template>
+              </deferred-media>
+            </div>
+            <div class="video-played-hidden">
+          {%- endif -%}
+
+          {%- if main_image -%}
+            {%- render 'image-desktop-and-mobile', desktop_image: main_image, mobile_image: section.settings.mobile_image -%}
+          {%- endif %}
+
+          {%- if section.settings.video_shopify != blank or section.settings.video_external != blank -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="text-overlay text-overlay--for-banner text-overlay--products text-overlay--v-{{ products_alignment_y }} text-overlay--h-{{ section.settings.products_alignment | split: ' ' | last }} image-overlay__over desktop-only">
+        <div class="text-overlay__inner">
+          {%- if section.settings.product_list != blank and section.settings.product_list.count == 1 -%}
+            {%- for product in section.settings.product_list limit: 1 -%}
+              <div class="text-overlay__single-product">
+                {%- render 'product-block', product: product, custom_aspect_ratio: chosen_aspect_ratio, compact: true, card_layout: section.settings.product_card_layout, hide_swatches: hide_swatches, grid: 6 -%}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <slide-show class="slide-show--cards-askew slide-show--product-cards-{{ section.settings.product_card_layout }} inline-block" role="region" aria-roledescription="{{ 'sections.slideshow.carousel' | t }}" aria-label="{{ section.settings.accessibility_info | escape }}" data-autoplay="false" data-transition="">
+              {%- if products_alignment_y == 'bottom' -%}
+                <div class="slideshow-ctrl slideshow-ctrl--inline js-only">
+                  <div class="slideshow-nav">
+                    <button type="button" class="slideshow-nav__btn has-ltr-icon" name="prev" aria-controls="slideshow-{{ section.id }}">
+                      <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+                      {% render 'icon-chevron-left' %}
+                    </button>
+
+                    <button type="button" class="slideshow-nav__btn has-ltr-icon" name="next" aria-controls="slideshow-{{ section.id }}">
+                      <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+                      {% render 'icon-chevron-right' %}
+                    </button>
+                  </div>
+                </div>
+              {%- endif -%}
+
+              <div class="slideshow slideshow--navigation-arrows" id="slideshow-{{ section.id }}" aria-live="polite" aria-atomic="true">
+                {%- if section.settings.product_list != blank -%}
+                  {% for product in section.settings.product_list %}
+                    <li class="slideshow__slide{% if forloop.first %} is-active{% endif %} has-motion"
+                        role="group"
+                        aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                        aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                        style="--index: {{ forloop.index0 }}"
+                        {%- unless forloop.first %}tabindex="-1"{% endunless %}
+                        {%- if request.design_mode %}data-index="{{ forloop.index0 }}"{% endif %}>
+                      {% render 'product-block', product: product, custom_aspect_ratio: chosen_aspect_ratio, compact: true, card_layout: section.settings.product_card_layout, grid: 6 hide_swatches: hide_swatches %}
+                    </li>
+                  {% endfor %}
+                {%- else -%}
+                  {% for i in (1..4) %}
+                    <li class="slideshow__slide{% if forloop.first %} is-active{% endif %}"
+                        role="group"
+                        aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                        aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                        style="--index: {{ forloop.index0 }}"
+                        {%- unless forloop.first %}tabindex="-1"{% endunless %}
+                        {%- if request.design_mode %}data-index="{{ forloop.index0 }}"{% endif %}>
+                      {% render 'onboarding-product-block', forloop: forloop, compact: true, card_layout: section.settings.product_card_layout %}
+                    </li>
+                  {% endfor %}
+                {%- endif -%}
+              </div>
+
+              {%- if products_alignment_y != 'bottom' -%}
+                <div class="slideshow-ctrl slideshow-ctrl--inline js-only">
+                  <div class="slideshow-nav">
+                    <button type="button" class="slideshow-nav__btn has-ltr-icon" name="prev" aria-controls="slideshow-{{ section.id }}">
+                      <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+                      {% render 'icon-chevron-left' %}
+                    </button>
+
+                    <button type="button" class="slideshow-nav__btn has-ltr-icon" name="next" aria-controls="slideshow-{{ section.id }}">
+                      <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+                      {% render 'icon-chevron-right' %}
+                    </button>
+                  </div>
+                </div>
+              {%- endif -%}
+            </slide-show>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="text-overlay text-overlay--for-banner text-overlay--v-{{ section.settings.text_alignment | split: ' ' | first }} text-overlay--h-{{ section.settings.text_alignment | split: ' ' | last }} image-overlay__over{% if section.settings.mobile_overlay_over %} desktop-only{% endif %}">
+        <div class="text-overlay__inner">
+          {%- if show_text_content -%}
+            <div class="text-overlay__text">
+              {% assign skip_block_count = 0 %}
+              {% for block in section.blocks %}
+                {%- liquid
+                  if skip_block_count > 0
+                    assign skip_block_count = skip_block_count | minus: 1
+                    continue
+                  endif
+                -%}
+                {% case block.type %}
+                  {% when 'heading' %}
+                    {% if block.settings.use_h1 %}
+                      <h1 class="text-overlay__title block-{{ block.id }}" {{ block.shopify_attributes }}>{% render 'multiline-text' with block.settings.title %}</h1>
+                    {% else %}
+                      <h2 class="text-overlay__title h1 block-{{ block.id }}" {{ block.shopify_attributes }}>{% render 'multiline-text' with block.settings.title %}</h2>
+                    {% endif %}
+
+                  {% when 'subheading' %}
+                    <div class="text-overlay__subheading subheading subheading--over lightish-spaced-row-above" {{ block.shopify_attributes }}>{{ block.settings.subheading | escape }}</div>
+
+                  {% when 'text' %}
+                    <div class="text-overlay__rte rte lightly-spaced-row block-{{ block.id }} {% if block.settings.enlarge_text %}large-text{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+                  {% when 'button' %}
+                    <div class="text-overlay__button-row button-row lightish-spaced-row-above" {{ block.shopify_attributes }}>
+                      <a class="text-overlay__button button-row__btn {% if block.settings.button_style != 'link' %}btn btn--{{ block.settings.button_style }}{% else %}small-feature-link{% endif %}" href="{{ block.settings.button_link }}">{{ block.settings.button_label | escape }}</a>
+                      {%- assign skip_block_count = 0 -%}
+                      {%- for next_block in section.blocks offset: forloop.index -%}
+                        {%- if next_block.type == 'button' -%}
+                          {%- assign skip_block_count = skip_block_count | plus: 1 -%}
+                          <a class="text-overlay__button button-row__btn {% if next_block.settings.button_style != 'link' %}btn btn--{{ next_block.settings.button_style }}{% else %}small-feature-link{% endif %}" href="{{ next_block.settings.button_link }}" {{ block.shopify_attributes }}>{{ next_block.settings.button_label | escape }}</a>
+                        {%- else -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+
+                  {%- when 'countdown' -%}
+                    <div class="block-id-{{ block.id }} lightly-spaced-row lightish-spaced-row-above countdown-font-{{ block.settings.number_font }} countdown-divider-{{ block.settings.divider_type }}" {{ block.shopify_attributes }}>
+                      {% render 'countdown-timer',
+                        end_date: block.settings.end_date,
+                        end_time: block.settings.end_time,
+                        end_text: block.settings.end_text,
+                        end_midnight: true,
+                        hide_on_end: block.settings.hide_on_end,
+                        show_labels: block.settings.show_timer_labels
+                      %}
+                    </div>
+
+                {% endcase %}
+              {% endfor %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-only lightish-spaced-row">
+    {%- if section.settings.product_list != blank and section.settings.product_list.count == 1 -%}
+      {%- for product in section.settings.product_list limit: 1 -%}
+        <div class="section-shop-the-look__single-product">
+          {%- render 'product-block', product: product, custom_aspect_ratio: chosen_aspect_ratio, compact: true, card_layout: 'landscape', hide_swatches: hide_swatches, grid: 6 -%}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <carousel-slider class="carousel block">
+        <div class="slider slider--no-scrollbar slider--mobile-container-pad">
+          <ul class="slider__grid product-grid product-grid--carousel product-grid--per-row-1">
+            {%- if section.settings.product_list != blank -%}
+              {% for product in section.settings.product_list %}
+                <li class="slider__item">
+                  {% render 'product-block', product: product, custom_aspect_ratio: chosen_aspect_ratio, compact: true, card_layout: 'landscape', hide_swatches: hide_swatches, grid: 6 %}
+                </li>
+              {% endfor %}
+            {%- else -%}
+              {% for i in (1..4) %}
+                <li class="slider__item">
+                  {% render 'onboarding-product-block', forloop: forloop, compact: true, card_layout: 'landscape' %}
+                </li>
+              {% endfor %}
+            {%- endif -%}
+          </ul>
+        </div>
+      </carousel-slider>
+    {%- endif -%}
+  </div>
+</image-with-text-overlay>
+
+
+{% schema %}
+{
+  "name": "Shop the look",
+  "class": "section-shop-the-look",
+  "disabled_on": {
+    "templates": [
+      "password"
+    ],
+    "groups": [
+      "aside"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "2048 x 1024px recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image",
+      "info": "1024px x 1024px recommended"
+    },
+    {
+      "type": "header",
+      "content": "Video (optional)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Video replaces image, playing on loop, with no sound. Image will show while video loads."
+    },
+    {
+      "id": "video_shopify",
+      "type": "video",
+      "label": "Video upload",
+      "info": "Hosted by Shopify. Replaces External video if both are set."
+    },
+    {
+      "id": "video_external",
+      "type": "text",
+      "label": "External video",
+      "info": "Supports YouTube and Vimeo. Landscape videos with a 16:9 aspect ratio recommended."
+    },
+    {
+      "type": "text",
+      "id": "video_description",
+      "label": "Video description",
+      "info": "Describe the video for customers using screen readers. [Learn more](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#video-block)"
+    },
+    {
+      "type": "header",
+      "content": "Media size"
+    },
+    {
+      "type": "radio",
+      "id": "height",
+      "label": "Media height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "full",
+          "label": "Full screen"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        }
+      ],
+      "default": "fixed"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 200,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop fixed height",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 100,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile fixed height",
+      "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products"
+    },
+    {
+      "type": "select",
+      "id": "products_alignment",
+      "label": "Position",
+      "options": [
+        {
+          "value": "top left",
+          "label": "Top left"
+        },
+        {
+          "value": "top center",
+          "label": "Top center"
+        },
+        {
+          "value": "top right",
+          "label": "Top right"
+        },
+        {
+          "value": "center left",
+          "label": "Middle left"
+        },
+        {
+          "value": "center center",
+          "label": "Middle center"
+        },
+        {
+          "value": "center right",
+          "label": "Middle right"
+        },
+        {
+          "value": "bottom left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "bottom right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "bottom right"
+    },
+    {
+      "type": "select",
+      "id": "product_card_layout",
+      "label": "Desktop card layout",
+      "default": "landscape",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ]
+    },
+    {
+      "id": "show_swatches",
+      "type": "checkbox",
+      "label": "Show swatches (if available)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "id": "full_width",
+      "type": "checkbox",
+      "label": "Full page width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text overlay position",
+      "options": [
+        {
+          "value": "top left",
+          "label": "Top left"
+        },
+        {
+          "value": "top center",
+          "label": "Top center"
+        },
+        {
+          "value": "top right",
+          "label": "Top right"
+        },
+        {
+          "value": "center left",
+          "label": "Middle left"
+        },
+        {
+          "value": "center right",
+          "label": "Middle right"
+        },
+        {
+          "value": "bottom left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "bottom right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "top left"
+    },
+    {
+      "id": "mobile_overlay_over",
+      "type": "checkbox",
+      "label": "Show text above image on mobile",
+      "default": false
+    },
+    {
+      "id": "overlay_style",
+      "type": "select",
+      "label": "Overlay style",
+      "default": "shadow",
+      "options": [
+        {
+          "value": "full",
+          "label": "Tint"
+        },
+        {
+          "value": "box",
+          "label": "Box"
+        },
+        {
+          "value": "shadow",
+          "label": "Text shadow"
+        },
+        {
+          "value": "full image-overlay--bg-shadow",
+          "label": "Text shadow and tint"
+        },
+        {
+          "value": "no_background",
+          "label": "No background"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "info": "Enter <br> for a line-break",
+          "default": "Shop the look"
+        },
+        {
+          "type": "range",
+          "id": "heading_max_width",
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "unit": "em",
+          "label": "Maximum heading width",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 20,
+          "max": 150,
+          "step": 2,
+          "unit": "px",
+          "label": "Desktop heading text size",
+          "default": 56
+        },
+        {
+          "type": "range",
+          "id": "title_size_mobile",
+          "min": 20,
+          "max": 150,
+          "step": 2,
+          "unit": "px",
+          "label": "Mobile heading text size",
+          "default": 26
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Desktop Color"
+        },
+        {
+          "type": "color",
+          "id": "mb_heading_color",
+          "label": "Mobile Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_h1",
+          "label": "Set as primary page heading",
+          "info": "Use <h1> tag. One per page recommended. [Read more](https://cleancanvas.co.uk/support/symmetry/section-h1-setting)",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Tell your story"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Promote your products with this section</p>"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Desktop Color"
+        },
+        {
+          "type": "color",
+          "id": "mb_text_color",
+          "label": "Mobile Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "enlarge_text",
+          "label": "Enlarge text",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Consecutive buttons will show on the same row"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button",
+          "default": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "primary",
+          "options": [
+            {
+              "label": "Primary",
+              "value": "primary"
+            },
+            {
+              "label": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "label": "Link",
+              "value": "link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "countdown",
+      "name": "Countdown timer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "end_date",
+          "label": "End date",
+          "info": "Required. Format: YYYY-MM-DD."
+        },
+        {
+          "type": "text",
+          "id": "end_time",
+          "label": "End time (optional)",
+          "info": "Format: 17:00 (24 hour clock). Uses the store's timezone."
+        },
+        {
+          "type": "richtext",
+          "id": "end_text",
+          "label": "End text",
+          "info": "This shows when the date and time elapses."
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_end",
+          "label": "Hide the timer when the date and time elapses",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "number_size",
+          "min": 20,
+          "max": 80,
+          "step": 2,
+          "unit": "px",
+          "label": "Number size",
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "number_font",
+          "label": "Number font",
+          "options": [
+            {
+              "label": "Text font",
+              "value": "base"
+            },
+            {
+              "label": "Heading font",
+              "value": "heading"
+            }
+          ],
+          "default": "base"
+        },
+        {
+          "type": "select",
+          "id": "divider_type",
+          "label": "Divider type",
+          "default": "colon",
+          "options": [
+            {
+              "value": "colon",
+              "label": "Colon"
+            },
+            {
+              "value": "dot",
+              "label": "Dot"
+            },
+            {
+              "value": "line",
+              "label": "Line"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "show_timer_labels",
+          "label": "Show labels",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the look",
+      "blocks": [
+        {
+          "type": "subheading"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

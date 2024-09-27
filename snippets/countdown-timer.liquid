@@ -1,0 +1,75 @@
+{%- liquid
+  assign hide_on_end = hide_on_end | default: false
+  if end_date != blank
+    if end_time != blank
+      assign end_date = end_date | append: 'T' | append: end_time
+    endif
+
+    assign end_date = end_date | date: '%Y-%m-%dT%H:%M%z'
+    assign now = 'now' | date: '%Y-%m-%dT%H:%M%z'
+  elsif end_midnight
+    assign now = 'now' | date: '%Y-%m-%dT%H:%M%z'
+    assign now_split = now | split: 'T'
+    assign end_date = now_split.first | append: 'T23:59%z' | date: '%Y-%m-%dT%H:%M%z'
+  endif
+
+  assign a11y_end_date = end_date | date: format: 'date_at_time'
+-%}
+
+<countdown-timer
+  class="countdown"
+  role="timer"
+  data-end-date="{% if end_date != blank %}{{ end_date }}{% endif %}"
+  {% if pad %}
+    data-pad="true"
+  {% endif %}
+  aria-label="{{ 'sections.countdown.end_date' | t: date: a11y_end_date }}"
+>
+  {%- if end_date > now or hide_on_end == false -%}
+    <div class="countdown__grid text-center no-js-hidden">
+      <div class="countdown__item">
+        <span class="countdown__number js-days"><span class="countdown__number-part">0</span></span>
+        <div class="countdown__unit subheading{% unless show_labels %} visually-hidden{% endunless %}">
+          {{ 'sections.countdown.days_short' | t }}
+        </div>
+      </div>
+      <div class="countdown__item">
+        <span class="countdown__number js-hours">
+          <span class="countdown__number-part countdown__number-part-1">0</span
+          ><span class="countdown__number-part countdown__number-part-2">0</span>
+        </span>
+        <div class="countdown__unit subheading{% unless show_labels %} visually-hidden{% endunless %}">
+          {{ 'sections.countdown.hours_short' | t }}
+        </div>
+      </div>
+      <div class="countdown__item">
+        <span class="countdown__number js-mins">
+          <span class="countdown__number-part countdown__number-part-1">0</span
+          ><span class="countdown__number-part countdown__number-part-2">0</span>
+        </span>
+        <div class="countdown__unit subheading{% unless show_labels %} visually-hidden{% endunless %}">
+          {{ 'sections.countdown.minutes_short' | t }}
+        </div>
+      </div>
+      <div class="countdown__item">
+        <span class="countdown__number js-secs">
+          <span class="countdown__number-part countdown__number-part-1">0</span
+          ><span class="countdown__number-part countdown__number-part-2">0</span>
+        </span>
+        <div class="countdown__unit subheading{% unless show_labels %} visually-hidden{% endunless %}">
+          {{ 'sections.countdown.seconds_short' | t }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="js-hidden">
+    {{ 'sections.countdown.end_date' | t: date: a11y_end_date }}
+  </div>
+
+  {%- if now > end_date and end_text -%}
+    <div class="countdown__text large-text rte">
+      {{- end_text -}}
+    </div>
+  {%- endif -%}
+</countdown-timer>
