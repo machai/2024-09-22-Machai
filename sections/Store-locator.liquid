@@ -1,0 +1,151 @@
+<div class="store-locator-container">
+  <div class="search-box">
+    <input id="store-search" type="text" placeholder="Enter your location...">
+    <button id="search-btn">Find Stores</button>
+  </div>
+
+  <div id="map" style="height: 500px; width: 100%;"></div>
+
+  <div class="store-list" id="store-list"></div>
+</div>
+<script>
+  let map, infoWindow;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: -34.397, lng: 150.644 },
+      zoom: 6
+    });
+
+    infoWindow = new google.maps.InfoWindow();
+
+    // Get current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('You are here.');
+          infoWindow.open(map);
+          map.setCenter(pos);
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+
+    // Load dynamic store locations from Shopify
+    const stores = [
+      {% for block in section.blocks %}
+      {
+        name: "{{ block.settings.store_name }}",
+        lat: {{ block.settings.store_lat }},
+        lng: {{ block.settings.store_lng }},
+        icon: "{{ block.settings.store_icon | img_url: '100x100' }}"
+      },
+      {% endfor %}
+    ];
+
+    stores.forEach(store => {
+      const marker = new google.maps.Marker({
+        position: { lat: parseFloat(store.lat), lng: parseFloat(store.lng) },
+        map: map,
+        title: store.name,
+        icon: store.icon || null,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.setContent(store.name);
+        infoWindow.open(map, marker);
+      });
+    });
+  }
+
+  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+      browserHasGeolocation
+        ? 'Error: The Geolocation service failed.'
+        : "Error: Your browser doesn't support geolocation."
+    );
+    infoWindow.open(map);
+  }
+</script>
+
+<!-- Add Google Maps API with your API key -->
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"
+></script>
+
+<style>
+  .store-locator-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .search-box {
+    margin-bottom: 20px;
+  }
+  #store-search {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+  }
+  #search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  #store-list {
+    margin-top: 20px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Store Locator",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "store",
+      "name": "Store",
+      "settings": [
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store Name"
+        },
+        {
+          "type": "text",
+          "id": "store_lat",
+          "label": "Latitude"
+        },
+        {
+          "type": "text",
+          "id": "store_lng",
+          "label": "Longitude"
+        },
+        {
+          "type": "image_picker",
+          "id": "store_icon",
+          "label": "Store Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
