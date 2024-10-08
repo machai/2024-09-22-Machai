@@ -8,6 +8,7 @@
 
   <div class="store-list" id="store-list"></div>
 </div>
+
 <script>
   let map, infoWindow;
 
@@ -79,12 +80,16 @@
   }
 </script>
 
-<!-- Add Google Maps API with your API key -->
-<script
-  async
-  defer
-  src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"
-></script>
+<!-- Add Google Maps API dynamically from the builder -->
+{% if section.settings.google_maps_api_key != blank %}
+  <script
+    async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ section.settings.google_maps_api_key }}&callback=initMap"
+  ></script>
+{% else %}
+  <p>Please enter your Google Maps API key in the theme editor.</p>
+{% endif %}
 
 <style>
   .store-locator-container {
@@ -112,7 +117,14 @@
 {% schema %}
 {
   "name": "Store Locator",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "google_maps_api_key",
+      "label": "Google Maps API Key",
+      "default": ""
+    }
+  ],
   "blocks": [
     {
       "type": "store",
