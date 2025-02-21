@@ -1,0 +1,366 @@
+<!-- Variant Picker Start -->
+{% comment %} {%- unless product.has_only_default_variant -%}
+  {%- if product.variants.size > 1 -%}
+    <variant-picker class="no-js-hidden" data-url="{{ product.url }}">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_id = product.id | append: '-' | append: option.name | handle -%}
+        {%- assign option_index0 = forloop.index0 -%} <!-- Define option_index0 properly -->
+
+        <fieldset class="option-selector" data-selector-type="listed" data-option="{{ option.name | escape }}">
+          <legend class="label x-text-[#676869]">{{ option.name }}</legend>
+
+          <div class="option-selector__btns flex flex-wrap items-center gap-2">
+            {%- for value in option.values -%}
+              {%- assign value_index0 = forloop.index0 -%}
+              {%- assign variant = product.variants | where: 'option1', value | first -%}
+              {%- assign color_swatch = value | handleize -%}
+
+              {%- if forloop.index <= 3 -%}
+                <!-- First three options -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.option1 == value %}checked{% endif %}>
+
+                {%- for variant in product.variants -%}
+                  {%- if variant.options[option_index0] == value -%}
+                    <label class="opt-label opt-label--image btn relative text-center"
+                           for="{{ option_id }}-opt-{{ value_index0 }}"
+                           data-image="{{ variant.featured_media | image_url }}">
+                      <div class="opt-label__media media"
+                           style="background-image: url('{{ variant.featured_media | image_url }}');
+                                  background-size: cover; background-position: center;">
+                        <span class="js-value">{{ value }}</span>
+                      </div>
+                    </label>
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+              {%- elsif forloop.index == 4 -%}
+                <!-- "+" icon -->
+                <span class="toggle-options cursor-pointer text-black text-xl mr-2">+</span>
+              {%- endif -%}
+
+              {%- if forloop.index == 4 -%}
+                <div class="extra-options hidden">
+              {%- endif -%}
+
+              {%- if forloop.index > 3 -%}
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}" required>
+                <label class="opt-label opt-label--btn btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}">
+                  {% if option.name == 'Color' %}
+                    <span class="swatch" style="background-color: {{ color_swatch }};" aria-label="{{ value }}"></span>
+                  {% else %}
+                    <span class="js-value">{{ value }}</span>
+                  {% endif %}
+                </label>
+              {%- endif -%}
+
+              {%- if forloop.last and forloop.index > 3 -%}
+                </div>
+              {%- endif -%}
+
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </variant-picker>
+  {%- endif -%}
+{%- endunless -%} {% endcomment %}
+<!-- Variant Picker End -->
+
+
+
+{% comment %} 
+ {%- unless product.has_only_default_variant -%}
+  {%- if product.variants.size > 1 -%}
+    <variant-picker class="no-js-hidden" data-url="{{ product.url }}">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_id = product.id | append: '-' | append: option.name | handle -%}
+        {%- assign option_index0 = forloop.index0 -%} <!-- Ensure correct index -->
+
+        <fieldset class="option-selector" data-selector-type="listed" data-option="{{ option.name | escape }}">
+          <legend class="label x-text-[#676869]">{{ option.name }}</legend>
+
+          <div class="option-selector__btns flex flex-wrap items-center gap-2">
+            {%- for value in option.values -%}
+              {%- assign value_index0 = forloop.index0 -%}
+              {%- assign variant = product.variants | where: 'option1', value | first -%}
+              {%- assign color_swatch = value | handleize -%}
+
+              {%- if forloop.index <= 3 -%}
+                <!-- First three options -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                {%- assign image_url = variant.featured_media.preview_image | image_url | default: product.featured_image | image_url -%}
+
+                <label class="opt-label opt-label--image btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}"
+                       data-image="{{ image_url }}">
+                  <div class="opt-label__media media"
+                       style="background-image: url('{{ image_url }}');
+                              background-size: contain; background-position: center; width:fit-content; height:40px; background-repeat: no-repeat; ">
+                    <span class="js-value">{{ value }}</span>
+                  </div>
+                </label>
+
+              {%- elsif forloop.index == 4 -%}
+                <!-- "+" icon -->
+                <span class="toggle-options cursor-pointer text-black text-xl mr-2">+</span>
+                <div class="extra-options hidden">
+              {%- endif -%}
+
+              {%- if forloop.index > 3 -%}
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}" required>
+
+                {%- assign image_url = variant.featured_media.preview_image | image_url | default: product.featured_image | image_url -%}
+
+                <label class="opt-label opt-label--btn btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}">
+                  {%- if option.name == 'Color' -%}
+                    <div class="opt-label__media media"
+                         style="background-image: url('{{ image_url }}');
+                                background-size: cover; background-position: center;">
+                      <span class="js-value">{{ value }}</span>
+                    </div>
+                  {%- else -%}
+                    <span class="js-value">{{ value }}</span>
+                  {%- endif -%}
+                </label>
+              {%- endif -%}
+
+              {%- if forloop.last and forloop.index > 3 -%}
+                </div>
+              {%- endif -%}
+
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </variant-picker>
+
+
+  {%- endif -%}
+{%- endunless -%} {% endcomment %}
+
+
+
+
+{% comment %} {%- unless product.has_only_default_variant -%}
+  {%- if product.variants.size > 1 -%}
+    <variant-picker class="no-js-hidden" data-url="{{ product.url }}">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_id = product.id | append: '-' | append: option.name | handle -%}
+        {%- assign option_index0 = forloop.index0 -%}
+
+        <fieldset class="option-selector" data-selector-type="listed" data-option="{{ option.name | escape }}">
+          <legend class="label x-text-[#676869]">{{ option.name }}</legend>
+
+          <div class="option-selector__btns flex flex-wrap items-center gap-2">
+            {%- for value in option.values -%}
+              {%- assign value_index0 = forloop.index0 -%}
+              {%- assign variant = product.variants | where: 'option1', value | first -%}
+              {%- assign image_url = variant.featured_media.preview_image | image_url | default: product.featured_image | image_url -%}
+
+              <!-- Check if the value is a word (non-numeric) -->
+              {%- if value != value | plus: 0 -%}
+                <!-- It's a word, show background image without text -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                <label class="opt-label opt-label--image btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}"
+                       data-image="{{ image_url }}">
+                  <div class="opt-label__media media"
+                       style="background-image: url('{{ image_url }}');
+                              background-size: contain;
+                              background-position: center;
+                              width: 40px;
+                              height: 40px;
+                              background-repeat: no-repeat;">
+                    <!-- No text for words -->
+                  </div>
+                </label>
+
+              {%- else -%}
+                <!-- It's a number, show text -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                <label class="opt-label opt-label--btn btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}">
+                  <span class="js-value">{{ value }}</span>
+                </label>
+              {%- endif -%}
+
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </variant-picker>
+  {%- endif -%}
+{%- endunless -%} {% endcomment %}
+
+
+
+
+{% comment %} 
+  {%- unless product.has_only_default_variant -%}
+  {%- if product.variants.size > 1 -%}
+    <variant-picker class="no-js-hidden" data-url="{{ product.url }}">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_id = product.id | append: '-' | append: option.name | handle -%}
+        {%- assign option_index0 = forloop.index0 -%}
+
+        <fieldset class="option-selector" data-selector-type="listed" data-option="{{ option.name | escape }}">
+          <legend class="label x-text-[#676869]">{{ option.name }}</legend>
+
+          <div class="option-selector__btns flex flex-wrap items-center gap-2">
+            {%- for value in option.values -%}
+              {%- assign value_index0 = forloop.index0 -%}
+              {%- assign variant = product.variants | where: 'option1', value | first -%}
+              {%- assign image_url = variant.featured_media.preview_image | image_url | default: product.featured_image | image_url -%}
+
+              {%- assign is_word = value | downcase | replace: ' ', '' | replace: '-', '' | replace: '_', '' | replace: '.', '' | split: '' | first -%}
+
+              <!-- If the first character is alphabetic, treat it as a word -->
+              {%- if is_word >= 'a' and is_word <= 'z' -%}
+                <!-- Word option: image without text -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                <label class="opt-label opt-label--image btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}"
+                       data-image="{{ image_url }}">
+                  <div class="opt-label__media media"
+                       style="background-image: url('{{ image_url }}');
+                              background-size: contain;
+                              background-position: center;
+                              width: 40px;
+                              height: 40px;
+                              background-repeat: no-repeat;">
+                  </div>
+                </label>
+
+              {%- else -%}
+                <!-- Number option: show text -->
+                <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                       name="{{ option_id }}-option"
+                       id="{{ option_id }}-opt-{{ value_index0 }}"
+                       value="{{ value | escape }}"
+                       required
+                       {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                <label class="opt-label opt-label--btn btn relative text-center"
+                       for="{{ option_id }}-opt-{{ value_index0 }}">
+                  <span class="js-value">{{ value }}</span>
+                </label>
+              {%- endif -%}
+
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </variant-picker>
+  {%- endif -%}
+ {%- endunless -%} {% endcomment %}
+
+
+ {% comment %} the hidden {%- unless product.has_only_default_variant -%}
+  {%- if product.variants.size > 1 -%}
+    <variant-picker class="no-js-hidden" data-url="{{ product.url }}">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_id = product.id | append: '-' | append: option.name | handle -%}
+        {%- assign option_index0 = forloop.index0 -%}
+
+        <fieldset class="option-selector" data-selector-type="listed" data-option="{{ option.name | escape }}">
+          <legend class="label x-text-[#676869]">{{ option.name }}</legend>
+
+          <div class="option-selector__btns flex flex-wrap items-center gap-2">
+            {%- for value in option.values -%}
+              {%- assign value_index0 = forloop.index0 -%}
+              {%- assign variant = product.variants | where: 'option1', value | first -%}
+              {%- assign image_url = variant.featured_media.preview_image | image_url | default: product.featured_image | image_url -%}
+              {%- assign is_word = value | downcase | replace: ' ', '' | replace: '-', '' | replace: '_', '' | replace: '.', '' | split: '' | first -%}
+
+              <!-- Option item -->
+              <div class="option-item {% if is_word < 'a' or is_word > 'z' and value_index0 >= 3 %}hidden extra-options{% endif %}">
+                {%- if is_word >= 'a' and is_word <= 'z' -%}
+                  <!-- Word option (Image without text) -->
+                  <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                         name="{{ option_id }}-option"
+                         id="{{ option_id }}-opt-{{ value_index0 }}"
+                         value="{{ value | escape }}"
+                         required
+                         {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                  <label class="opt-label opt-label--image btn relative text-center"
+                         for="{{ option_id }}-opt-{{ value_index0 }}"
+                         data-image="{{ image_url }}">
+                    <div class="opt-label__media media"
+                         style="background-image: url('{{ image_url }}');
+                                background-size: contain;
+                                background-position: center;
+                                width: 40px;
+                                height: 40px;
+                                background-repeat: no-repeat;">
+                    </div>
+                  </label>
+
+                {%- else -%}
+                  <!-- Number option (Show text) -->
+                  <input type="radio" class="opt-btn visually-hidden focus-label js-option"
+                         name="{{ option_id }}-option"
+                         id="{{ option_id }}-opt-{{ value_index0 }}"
+                         value="{{ value | escape }}"
+                         required
+                         {% if product.selected_or_first_available_variant.options[option_index0] == value %}checked{% endif %}>
+
+                  <label class="opt-label opt-label--btn btn relative text-center"
+                         for="{{ option_id }}-opt-{{ value_index0 }}">
+                    <span class="js-value">{{ value }}</span>
+                  </label>
+                {%- endif -%}
+              </div>
+
+            {%- endfor -%}
+
+            <!-- Plus sign to expand more options -->
+            {%- if option.values.size > 3 -%}
+              <button type="button" class="toggle-options text-sm text-gray-500">+ More</button>
+            {%- endif -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </variant-picker>
+  {%- endif -%}
+{%- endunless -%} {% endcomment %}
+
+
